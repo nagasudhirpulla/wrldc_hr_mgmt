@@ -1,9 +1,14 @@
+using Application;
+using Application.Common;
+using Application.Departments.Commands.SeedDepartments;
+using Application.Designations.Commands.SeedDesignations;
+using Application.Users.Commands.SeedUsers;
+using Infra;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,38 +16,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Data;
+using WebApp.Services;
 
 namespace WebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddRazorPages();
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddApplication();
+            services.AddInfrastructure(Configuration, Environment);
+            services.AddRazorPages()
+                .AddMvcOptions(o => o.Filters.Add(new AuthorizeFilter()))
+                .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMediator mediator)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -59,10 +65,22 @@ namespace WebApp
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // seed Data
+            SeedData(mediator).Wait();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+        public async Task SeedData(IMediator mediator)
+        {
+            _ = await mediator.Send(new SeedDepartmentsCommand());
+            _ = await mediator.Send(new SeedDesignationsCommand());
+            _ = await mediator.Send(new SeedUsersCommand());
         }
     }
 }

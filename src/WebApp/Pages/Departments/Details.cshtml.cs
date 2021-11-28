@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Application.Common.Interfaces;
+using Application.Users;
+using Core.Entities;
+using Infra.Persistence;
+
+namespace WebApp.Pages.Departments
+{
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
+    public class DetailsModel : PageModel
+    {
+        private readonly IAppDbContext _context;
+
+        public DetailsModel(IAppDbContext context)
+        {
+            _context = context;
+        }
+
+        public Department Department { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Department = await _context.Departments.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (Department == null)
+            {
+                return NotFound();
+            }
+            return Page();
+        }
+    }
+}

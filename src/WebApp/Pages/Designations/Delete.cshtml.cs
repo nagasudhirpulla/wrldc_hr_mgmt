@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Application.Common.Interfaces;
+using Application.Users;
+using Core.Entities;
+using Infra.Persistence;
+
+namespace WebApp.Pages.Designations
+{
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
+    public class DeleteModel : PageModel
+    {
+        private readonly IAppDbContext _context;
+
+        public DeleteModel(IAppDbContext context)
+        {
+            _context = context;
+        }
+
+        [BindProperty]
+        public Designation Designation { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Designation = await _context.Designations.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (Designation == null)
+            {
+                return NotFound();
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Designation = await _context.Designations.FindAsync(id);
+
+            if (Designation != null)
+            {
+                _context.Designations.Remove(Designation);
+                await _context.SaveChangesAsync(new CancellationToken());
+            }
+
+            return RedirectToPage("./Index");
+        }
+    }
+}
