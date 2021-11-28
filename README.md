@@ -1,4 +1,6 @@
 ## TODOS
+* Add region to employee entity
+* Create deptHistory, desigHistory, regionHistory Tables and use notifications for updating latest dept in user entity for quick access
 * Add "enable two factor" option for users, disable options should not be present
 
 ## Links
