@@ -13,7 +13,16 @@ namespace Infra.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            
+            builder.Property(b => b.UserName)
+               .IsRequired();
+
+
+            builder.Property(b => b.OfficeId)
+                .HasMaxLength(10);
+
+            builder
+            .HasIndex(b => b.OfficeId)
+            .IsUnique();
         }
     }
 }

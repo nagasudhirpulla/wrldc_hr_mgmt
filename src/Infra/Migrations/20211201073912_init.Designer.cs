@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211127071228_init")]
+    [Migration("20211201073912_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,11 +23,17 @@ namespace Infra.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Aadhar")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DateofJoining")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DepartmentId")
@@ -39,12 +45,30 @@ namespace Infra.Migrations
                     b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DoB")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DomicileState")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("EmailId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EthnicOrigin")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FatherName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
@@ -63,7 +87,17 @@ namespace Infra.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OfficeId")
+                    b.Property<int?>("OfficeId")
+                        .HasMaxLength(10)
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PAN")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PH_SpeciallyAbled")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PRAN")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -75,13 +109,20 @@ namespace Infra.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Religion")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UAN")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -97,6 +138,9 @@ namespace Infra.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("OfficeId")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers");
                 });
@@ -165,10 +209,58 @@ namespace Infra.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Grade")
+                        .IsUnique();
+
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Designations");
+                });
+
+            modelBuilder.Entity("Core.Entities.Despatch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IndentingDept")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReferenceNo")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SendTo")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReferenceNo")
+                        .IsUnique();
+
+                    b.ToTable("Despatch");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -60,6 +60,63 @@
                 <select asp-for="NewUser.DepartmentId" class="form-control" asp-items="Model.DeptOptions"></select>
                 <span asp-validation-for="NewUser.DepartmentId" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="NewUser.FatherName"></label>
+                <input asp-for="NewUser.FatherName" class="form-control" />
+                <span asp-validation-for="NewUser.FatherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.DoB"></label>
+                <input asp-for="NewUser.DoB" class="form-control" />
+                <span asp-validation-for="NewUser.DoB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.DateofJoining"></label>
+                <input asp-for="NewUser.DateofJoining" class="form-control" />
+                <span asp-validation-for="NewUser.DateofJoining" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select asp-for="NewUser.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                <span asp-validation-for="NewUser.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Specially Abled</label>
+                <select asp-for="NewUser.PH_SpeciallyAbled" class="form-control" asp-items="Model.SpeciallyAbledOptions"></select>
+                <span asp-validation-for="NewUser.PH_SpeciallyAbled" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Ethnic Origin</label>
+                <select asp-for="NewUser.EthnicOrigin" class="form-control" asp-items="Model.EthnicOriginOptions"></select>
+                <span asp-validation-for="NewUser.EthnicOrigin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.DomicileState"></label>
+                <input asp-for="NewUser.DomicileState" class="form-control" />
+                <span asp-validation-for="NewUser.DomicileState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.Religion"></label>
+                <input asp-for="NewUser.Religion" class="form-control" />
+                <span asp-validation-for="NewUser.Religion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.Aadhar"></label>
+                <input asp-for="NewUser.Aadhar" class="form-control" />
+                <span asp-validation-for="NewUser.Aadhar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.UAN"></label>
+                <input asp-for="NewUser.UAN" class="form-control" />
+                <span asp-validation-for="NewUser.UAN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.PRAN"></label>
+                <input asp-for="NewUser.PRAN" class="form-control" />
+                <span asp-validation-for="NewUser.PRAN" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="NewUser.IsActive"></label>
                 <input asp-for="NewUser.IsActive" class="form-control" />

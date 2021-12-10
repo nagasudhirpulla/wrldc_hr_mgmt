@@ -36,6 +36,9 @@ namespace WebApp.Pages.Users
         public SelectList DeptOptions { get; set; }
         public SelectList DesigOptions { get; set; }
         public SelectList URoles { get; set; }
+        public SelectList GenderOptions { get; set; }
+        public SelectList SpeciallyAbledOptions { get; set; }
+        public SelectList EthnicOriginOptions { get; set; }
 
         [BindProperty]
         public CreateUserCommand NewUser { get; set; }
@@ -76,6 +79,9 @@ namespace WebApp.Pages.Users
             DeptOptions = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
             DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             URoles = new SelectList(SecurityConstants.GetRoles());
+            SpeciallyAbledOptions = new SelectList(SpeciallyChallenged.GetSpeciallyChallengedOptions());
+            GenderOptions = new SelectList(GenderConstants.GetGenderOptions());
+            EthnicOriginOptions = new SelectList(EthnicOriginConstants.GetEthnicOriginOptions());
         }
     }
 }

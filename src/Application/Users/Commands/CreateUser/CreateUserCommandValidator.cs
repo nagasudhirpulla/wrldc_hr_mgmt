@@ -10,6 +10,7 @@ namespace Application.Users.Commands.CreateUser
             RuleFor(x => x.DisplayName).NotEmpty();
             RuleFor(x => x.Email).EmailAddress().NotEmpty();
             RuleFor(x => x.UserRole).NotEmpty();
+            RuleFor(x => x.OfficeId).NotEmpty();
             RuleFor(x => x.Password)
                 .NotEmpty()
                 .Equal(x => x.ConfirmPassword).WithMessage("Password and confirmation password do not match.");

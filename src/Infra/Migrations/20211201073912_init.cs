@@ -58,6 +58,26 @@ namespace Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Despatch",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IndentingDept = table.Column<string>(type: "TEXT", nullable: false),
+                    ReferenceNo = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
+                    Purpose = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    SendTo = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Despatch", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -84,11 +104,24 @@ namespace Infra.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     DisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    OfficeId = table.Column<string>(type: "TEXT", nullable: true),
+                    OfficeId = table.Column<int>(type: "INTEGER", maxLength: 10, nullable: true),
                     DesignationId = table.Column<int>(type: "INTEGER", nullable: false),
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    FatherName = table.Column<string>(type: "TEXT", nullable: true),
+                    DoB = table.Column<string>(type: "TEXT", nullable: true),
+                    DateofJoining = table.Column<string>(type: "TEXT", nullable: true),
+                    Gender = table.Column<string>(type: "TEXT", nullable: true),
+                    EthnicOrigin = table.Column<string>(type: "TEXT", nullable: true),
+                    DomicileState = table.Column<string>(type: "TEXT", nullable: true),
+                    Religion = table.Column<string>(type: "TEXT", nullable: true),
+                    PH_SpeciallyAbled = table.Column<string>(type: "TEXT", nullable: true),
+                    Aadhar = table.Column<string>(type: "TEXT", nullable: true),
+                    PAN = table.Column<string>(type: "TEXT", nullable: true),
+                    EmailId = table.Column<string>(type: "TEXT", nullable: true),
+                    UAN = table.Column<string>(type: "TEXT", nullable: true),
+                    PRAN = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -247,6 +280,12 @@ namespace Infra.Migrations
                 column: "DesignationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_OfficeId",
+                table: "AspNetUsers",
+                column: "OfficeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -259,9 +298,21 @@ namespace Infra.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Designations_Grade",
+                table: "Designations",
+                column: "Grade",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Designations_Name",
                 table: "Designations",
                 column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Despatch_ReferenceNo",
+                table: "Despatch",
+                column: "ReferenceNo",
                 unique: true);
         }
 
@@ -281,6 +332,9 @@ namespace Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Despatch");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

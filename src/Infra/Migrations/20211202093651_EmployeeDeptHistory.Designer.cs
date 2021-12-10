@@ -3,14 +3,16 @@ using System;
 using Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211202093651_EmployeeDeptHistory")]
+    partial class EmployeeDeptHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +87,9 @@ namespace Infra.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OfficeId")
+                    b.Property<int?>("OfficeId")
                         .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PAN")
                         .HasColumnType("TEXT");
@@ -305,7 +307,7 @@ namespace Infra.Migrations
                     b.HasIndex("FromDate", "OfficeId", "DepartmentId")
                         .IsUnique();
 
-                    b.ToTable("EmployeeDeptHistorys");
+                    b.ToTable("EmployeeDeptHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
