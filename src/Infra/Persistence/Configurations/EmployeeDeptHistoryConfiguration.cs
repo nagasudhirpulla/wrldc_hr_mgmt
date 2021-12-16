@@ -13,18 +13,15 @@ namespace Infra.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<EmployeeDeptHistory> builder)
         {
-            // Name is required and just 250 characters
-            builder.Property(b => b.DeptName)
-                .IsRequired()
-                .HasMaxLength(50);
+            builder.Ignore(e => e.DomainEvents);
 
             // FromDate is required
             builder.Property(b => b.FromDate)
             .IsRequired();
 
-            // FromDate OfficeId DepartmentId is Unique
+            // OfficeId DepartmentId is Unique
             builder
-               .HasIndex(b => new { b.FromDate, b.OfficeId, b.DepartmentId })
+               .HasIndex(b => new { b.FromDate, b.ApplicationUserId, b.DepartmentId })
                .IsUnique();
 
         }

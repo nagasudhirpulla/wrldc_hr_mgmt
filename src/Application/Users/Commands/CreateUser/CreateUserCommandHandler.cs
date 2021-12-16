@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Entities;
 using AutoMapper;
+using Core.Events;
 
 namespace Application.Users.Commands.CreateUser
 {
@@ -86,6 +87,8 @@ namespace Application.Users.Commands.CreateUser
                     Console.WriteLine(ex.Message);
                 }
                 **/
+                // create domain event about user creation
+                user.DomainEvents.Add(new ApplicationUserCreatedEvent(user));
             }
             return result;
         }

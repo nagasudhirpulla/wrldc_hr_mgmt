@@ -18,14 +18,16 @@ namespace Infra.Persistence
     public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
     {
         private readonly ICurrentUserService _currentUserService;
+        private readonly IDomainEventService _domainEventService;
         public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<EmployeeDeptHistory> EmployeeDeptHistorys { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUserService currentUserService)
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService)
             : base(options)
         {
             _currentUserService = currentUserService;
+            _domainEventService = domainEventService;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -34,7 +36,7 @@ namespace Infra.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
@@ -51,7 +53,25 @@ namespace Infra.Persistence
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            var events = ChangeTracker.Entries<IHasDomainEvent>()
+                .Select(x => x.Entity.DomainEvents)
+                .SelectMany(x => x)
+                .Where(domainEvent => !domainEvent.IsPublished)
+                .ToArray();
+            await DispatchEvents(events);
+
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            return result;
+        }
+
+        private async Task DispatchEvents(DomainEvent[] events)
+        {
+            foreach (var @event in events)
+            {
+                @event.IsPublished = true;
+                await _domainEventService.Publish(@event);
+            }
         }
     }
 }

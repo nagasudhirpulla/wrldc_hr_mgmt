@@ -22,6 +22,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
 
         [BindProperty]
         public EmployeeDeptHistory EmployeeDeptHistory { get; set; }
+        public SelectList DepartmentNameSL { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

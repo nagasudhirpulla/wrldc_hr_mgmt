@@ -13,6 +13,8 @@ namespace Infra.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
+            builder.Ignore(e => e.DomainEvents);
+
             builder.Property(b => b.UserName)
                .IsRequired();
 

@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class EmployeeDeptHistory : AuditableEntity
+    public class EmployeeDeptHistory : AuditableEntity, IHasDomainEvent
     {
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public int OfficeId { get; set; }
         public int DepartmentId { get; set; }
-        // Only DepartmentId is stored in employee table
         public Department Department { get; set; }
-        [Required]
-        public string DeptName { get; set; }
         public DateTime FromDate { get; set; }
+        public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }

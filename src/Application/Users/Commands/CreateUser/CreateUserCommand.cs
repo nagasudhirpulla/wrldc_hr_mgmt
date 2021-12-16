@@ -25,8 +25,8 @@ namespace Application.Users.Commands.CreateUser
         public int DepartmentId { get; set; }
         public bool IsActive { get; set; } = true;
         public string FatherName { get; set; }
-        public string DoB { get; set; }
-        public string DateofJoining { get; set; }
+        public DateTime DoB { get; set; }
+        public DateTime DateofJoining { get; set; }
         public string Gender { get; set; }
         public string EthnicOrigin { get; set; }
         public string DomicileState { get; set; }

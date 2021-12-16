@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EmployeeDeptHistorys\" />
+    <Folder Include="EmployeeDeptHistorys\Commands\DeleteDeptHistory\" />
+    <Folder Include="EmployeeDeptHistorys\Queries\" />
   </ItemGroup>
 
 </Project>

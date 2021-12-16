@@ -7,26 +7,33 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Core.Entities;
 using Infra.Persistence;
+using Application.EmployeeDeptHistorys.Commands.CreateDeptHistory;
+using MediatR;
+using Application.Departments.Queries.GetDepartments;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
     public class CreateModel : PageModel
     {
-        private readonly Infra.Persistence.AppDbContext _context;
+        private readonly IMediator _mediator;
 
-        public CreateModel(Infra.Persistence.AppDbContext context)
+        public CreateModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync(string usrId)
         {
-        ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+            NewDeptHistory = new();
+            NewDeptHistory.ApplicationUserId = usrId;
+            List<Department> depts = await _mediator.Send(new GetDepartmentsQuery());
+            DepartmentNameSL = new SelectList(depts, "Id", "Name");
             return Page();
         }
 
         [BindProperty]
-        public EmployeeDeptHistory EmployeeDeptHistory { get; set; }
+        public CreateDeptHistoryCommand NewDeptHistory { get; set; }
+        public SelectList DepartmentNameSL { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -36,9 +43,9 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return Page();
             }
 
-            _context.EmployeeDeptHistorys.Add(EmployeeDeptHistory);
-            await _context.SaveChangesAsync();
+            _ = await _mediator.Send(NewDeptHistory);
 
+            // TODO show errors in create page if present
             return RedirectToPage("./Index");
         }
     }
