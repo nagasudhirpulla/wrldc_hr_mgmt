@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Users.Commands.UpdateUserLatestDept;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -28,9 +29,8 @@ namespace Application.EmployeeDeptHistorys.EventHandlers
 
             _logger.LogInformation("Domain Event: {DomainEvent}", domainEvent.GetType().Name);
 
-            // TODO update user latest department data
-            string appUsrId = notification.DomainEvent.ApplicationUserId;
-            _ = await _mediator.Send(NewDeptHistory, cancellationToken);
+            // update user's latest department data
+            _ = await _mediator.Send(new UpdateUserLatestDeptCommand() { ApplicationUserId = domainEvent.ApplicationUserId }, cancellationToken);
         }
     }
 }

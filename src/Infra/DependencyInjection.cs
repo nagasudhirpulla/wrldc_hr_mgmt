@@ -17,6 +17,7 @@ using Infra.Services.Sms;
 using Application.Users;
 using Application.Common.Interfaces;
 using DNTCaptcha.Core;
+using Infra.Services;
 
 namespace Infra
 {
@@ -39,6 +40,8 @@ namespace Infra
             }
 
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
+
+            services.AddScoped<IDomainEventService, DomainEventService>();
 
             // add identity framework on top of entity framework - https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0#custom-user-data
             services

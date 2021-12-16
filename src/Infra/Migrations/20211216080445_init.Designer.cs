@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211201073912_init")]
+    [Migration("20211216080445_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,19 +33,19 @@ namespace Infra.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DateofJoining")
+                    b.Property<DateTime>("DateofJoining")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DesignationId")
+                    b.Property<int?>("DesignationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DoB")
+                    b.Property<DateTime>("DoB")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DomicileState")
@@ -61,14 +61,14 @@ namespace Infra.Migrations
                     b.Property<string>("EmailId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EthnicOrigin")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("EthnicOrigin")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FatherName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Gender")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
@@ -87,14 +87,11 @@ namespace Infra.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("OfficeId")
+                    b.Property<string>("OfficeId")
                         .HasMaxLength(10)
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PAN")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PH_SpeciallyAbled")
+                    b.Property<string>("PAN")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PRAN")
@@ -114,6 +111,9 @@ namespace Infra.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("SpeciallyAbled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
@@ -218,11 +218,14 @@ namespace Infra.Migrations
                     b.ToTable("Designations");
                 });
 
-            modelBuilder.Entity("Core.Entities.Despatch", b =>
+            modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
@@ -230,8 +233,10 @@ namespace Infra.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("IndentingDept")
-                        .IsRequired()
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FromDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastModified")
@@ -240,27 +245,16 @@ namespace Infra.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Purpose")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ReferenceNo")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SendTo")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ReferenceNo")
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("FromDate", "ApplicationUserId", "DepartmentId")
                         .IsUnique();
 
-                    b.ToTable("Despatch");
+                    b.ToTable("EmployeeDeptHistorys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -399,19 +393,32 @@ namespace Infra.Migrations
                 {
                     b.HasOne("Core.Entities.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("Core.Entities.Designation", "Designation")
                         .WithMany()
-                        .HasForeignKey("DesignationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DesignationId");
 
                     b.Navigation("Department");
 
                     b.Navigation("Designation");
+                });
+
+            modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Core.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

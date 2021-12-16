@@ -31,19 +31,19 @@ namespace Infra.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DateofJoining")
+                    b.Property<DateTime>("DateofJoining")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DesignationId")
+                    b.Property<int?>("DesignationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DoB")
+                    b.Property<DateTime>("DoB")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DomicileState")
@@ -59,14 +59,14 @@ namespace Infra.Migrations
                     b.Property<string>("EmailId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EthnicOrigin")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("EthnicOrigin")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FatherName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Gender")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
@@ -92,9 +92,6 @@ namespace Infra.Migrations
                     b.Property<string>("PAN")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PH_SpeciallyAbled")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("PRAN")
                         .HasColumnType("TEXT");
 
@@ -112,6 +109,9 @@ namespace Infra.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("SpeciallyAbled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
@@ -216,51 +216,6 @@ namespace Infra.Migrations
                     b.ToTable("Designations");
                 });
 
-            modelBuilder.Entity("Core.Entities.Despatch", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IndentingDept")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Purpose")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ReferenceNo")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SendTo")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReferenceNo")
-                        .IsUnique();
-
-                    b.ToTable("Despatch");
-                });
-
             modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -279,11 +234,6 @@ namespace Infra.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("DeptName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("TEXT");
 
@@ -293,16 +243,13 @@ namespace Infra.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("OfficeId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("FromDate", "OfficeId", "DepartmentId")
+                    b.HasIndex("FromDate", "ApplicationUserId", "DepartmentId")
                         .IsUnique();
 
                     b.ToTable("EmployeeDeptHistorys");
@@ -444,15 +391,11 @@ namespace Infra.Migrations
                 {
                     b.HasOne("Core.Entities.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("Core.Entities.Designation", "Designation")
                         .WithMany()
-                        .HasForeignKey("DesignationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DesignationId");
 
                     b.Navigation("Department");
 

@@ -12,6 +12,7 @@ using Application.Common.Interfaces;
 using Core.Common;
 using Core.Entities;
 using Infra.Persistence.Configurations;
+using SmartEnum.EFCore;
 
 namespace Infra.Persistence
 {
@@ -33,6 +34,7 @@ namespace Infra.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.ConfigureSmartEnum();
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

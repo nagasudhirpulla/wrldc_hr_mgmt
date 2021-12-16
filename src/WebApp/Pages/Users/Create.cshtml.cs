@@ -17,6 +17,7 @@ using Application.Users;
 using Application.Users.Commands.CreateUser;
 using WebApp.Extensions;
 using Application.Designations.Queries.GetDesignations;
+using Core.Enums;
 
 namespace WebApp.Pages.Users
 {
@@ -79,9 +80,9 @@ namespace WebApp.Pages.Users
             DeptOptions = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
             DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             URoles = new SelectList(SecurityConstants.GetRoles());
-            SpeciallyAbledOptions = new SelectList(SpeciallyChallenged.GetSpeciallyChallengedOptions());
-            GenderOptions = new SelectList(GenderConstants.GetGenderOptions());
-            EthnicOriginOptions = new SelectList(EthnicOriginConstants.GetEthnicOriginOptions());
+            SpeciallyAbledOptions = new SelectList(SpeciallyAbledEnum.List, "Value", "Name");
+            GenderOptions = new SelectList(GenderEnum.List, "Value", "Name");
+            EthnicOriginOptions = new SelectList(EthnicOriginEnum.List, "Value", "Name");
         }
     }
 }

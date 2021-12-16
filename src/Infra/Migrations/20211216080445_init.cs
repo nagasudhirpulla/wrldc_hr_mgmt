@@ -58,26 +58,6 @@ namespace Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Despatch",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    IndentingDept = table.Column<string>(type: "TEXT", nullable: false),
-                    ReferenceNo = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
-                    Purpose = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    SendTo = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Despatch", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -104,18 +84,18 @@ namespace Infra.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     DisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    OfficeId = table.Column<int>(type: "INTEGER", maxLength: 10, nullable: true),
-                    DesignationId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    OfficeId = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    DesignationId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     FatherName = table.Column<string>(type: "TEXT", nullable: true),
-                    DoB = table.Column<string>(type: "TEXT", nullable: true),
-                    DateofJoining = table.Column<string>(type: "TEXT", nullable: true),
-                    Gender = table.Column<string>(type: "TEXT", nullable: true),
-                    EthnicOrigin = table.Column<string>(type: "TEXT", nullable: true),
+                    DoB = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateofJoining = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Gender = table.Column<int>(type: "INTEGER", nullable: true),
+                    EthnicOrigin = table.Column<int>(type: "INTEGER", nullable: true),
                     DomicileState = table.Column<string>(type: "TEXT", nullable: true),
                     Religion = table.Column<string>(type: "TEXT", nullable: true),
-                    PH_SpeciallyAbled = table.Column<string>(type: "TEXT", nullable: true),
+                    SpeciallyAbled = table.Column<int>(type: "INTEGER", nullable: true),
                     Aadhar = table.Column<string>(type: "TEXT", nullable: true),
                     PAN = table.Column<string>(type: "TEXT", nullable: true),
                     EmailId = table.Column<string>(type: "TEXT", nullable: true),
@@ -144,13 +124,13 @@ namespace Infra.Migrations
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Designations_DesignationId",
                         column: x => x.DesignationId,
                         principalTable: "Designations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,6 +218,37 @@ namespace Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeeDeptHistorys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeDeptHistorys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeDeptHistorys_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EmployeeDeptHistorys_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -310,9 +321,19 @@ namespace Infra.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Despatch_ReferenceNo",
-                table: "Despatch",
-                column: "ReferenceNo",
+                name: "IX_EmployeeDeptHistorys_ApplicationUserId",
+                table: "EmployeeDeptHistorys",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeDeptHistorys_DepartmentId",
+                table: "EmployeeDeptHistorys",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeDeptHistorys_FromDate_ApplicationUserId_DepartmentId",
+                table: "EmployeeDeptHistorys",
+                columns: new[] { "FromDate", "ApplicationUserId", "DepartmentId" },
                 unique: true);
         }
 
@@ -334,7 +355,7 @@ namespace Infra.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Despatch");
+                name: "EmployeeDeptHistorys");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

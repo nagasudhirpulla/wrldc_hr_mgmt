@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -27,11 +28,11 @@ namespace Application.Users.Commands.CreateUser
         public string FatherName { get; set; }
         public DateTime DoB { get; set; }
         public DateTime DateofJoining { get; set; }
-        public string Gender { get; set; }
-        public string EthnicOrigin { get; set; }
+        public GenderEnum Gender { get; set; }
+        public EthnicOriginEnum EthnicOrigin { get; set; }
         public string DomicileState { get; set; }
         public string Religion { get; set; }
-        public string PH_SpeciallyAbled { get; set; }
+        public SpeciallyAbledEnum SpeciallyAbled { get; set; }
         public string Aadhar { get; set; }
         public string PAN { get; set; }
         public string EmailId { get; set; }
