@@ -1,4 +1,5 @@
 ﻿@page
+@using Core.Enums
 @model WebApp.Pages.Users.CreateModel
 @{
     ViewData["Title"] = "Register New User";
@@ -51,7 +52,7 @@
                 <span asp-validation-for="NewUser.OfficeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NewUser.DesignationId"></label>
+                <label>Designation</label>
                 <select asp-for="NewUser.DesignationId" class="form-control" asp-items="Model.DesigOptions"></select>
                 <span asp-validation-for="NewUser.DesignationId" class="text-danger"></span>
             </div>
@@ -78,17 +79,17 @@
             </div>
             <div class="form-group">
                 <label>Gender</label>
-                <select asp-for="NewUser.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                <select asp-for="NewUser.Gender" class="form-control" asp-items="@(new SelectList(GenderEnum.List, "Value", "Name"))"></select>
                 <span asp-validation-for="NewUser.Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Specially Abled</label>
-                <select asp-for="NewUser.SpeciallyAbled" class="form-control" asp-items="Model.SpeciallyAbledOptions"></select>
+                <select asp-for="NewUser.SpeciallyAbled" class="form-control" asp-items="@(new SelectList(SpeciallyAbledEnum.List, "Value", "Name"))"></select>
                 <span asp-validation-for="NewUser.SpeciallyAbled" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Ethnic Origin</label>
-                <select asp-for="NewUser.EthnicOrigin" class="form-control" asp-items="Model.EthnicOriginOptions"></select>
+                <select asp-for="NewUser.EthnicOrigin" class="form-control" asp-items="@(new SelectList(EthnicOriginEnum.List, "Value", "Name"))"></select>
                 <span asp-validation-for="NewUser.EthnicOrigin" class="text-danger"></span>
             </div>
             <div class="form-group">

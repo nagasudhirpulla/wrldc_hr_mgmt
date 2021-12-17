@@ -24,6 +24,8 @@ namespace Infra.Persistence.Configurations
                .HasIndex(b => new { b.FromDate, b.ApplicationUserId, b.DepartmentId })
                .IsUnique();
 
+            builder.HasOne(e => e.ApplicationUser).WithMany().OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

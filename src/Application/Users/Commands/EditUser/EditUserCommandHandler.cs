@@ -29,7 +29,7 @@ namespace Application.Users.Commands.EditUser
             {
                 errors.Add($"Unable to find user with id {request.Id}");
             }
-            List<IdentityError> identityErrors = new List<IdentityError>();
+            List<IdentityError> identityErrors = new();
             // change password if not null
             string newPassword = request.Password;
             if (!string.IsNullOrWhiteSpace(newPassword))

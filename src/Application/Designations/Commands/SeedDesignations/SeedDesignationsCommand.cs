@@ -27,8 +27,8 @@ namespace Application.Designations.Commands.SeedDesignations
             {
                 foreach (var des in request.SeedDesigs)
                 {
-                    bool isDeptPres = await _context.Designations.AnyAsync(d => d.Name.ToLower().Equals(des.Item1.ToLower()), cancellationToken: cancellationToken);
-                    if (!isDeptPres)
+                    bool isDesigPres = await _context.Designations.AnyAsync(d => d.Name.ToLower().Equals(des.Item1.ToLower()), cancellationToken: cancellationToken);
+                    if (!isDesigPres)
                     {
                         _context.Designations.Add(new Designation() { Name = des.Item1, Grade = des.Item2, Level = des.Item3 });
                         _ = await _context.SaveChangesAsync(cancellationToken);

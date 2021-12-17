@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Entities;
 using AutoMapper;
 using Core.Events;
+using Application.Common.Interfaces;
 
 namespace Application.Users.Commands.CreateUser
 {
@@ -16,30 +17,24 @@ namespace Application.Users.Commands.CreateUser
         private readonly IEmailSender _emailSender;
         private readonly ILogger<CreateUserCommandHandler> _logger;
         private readonly IMapper _mapper;
+        private readonly IAppDbContext _context;
 
-        public CreateUserCommandHandler(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ILogger<CreateUserCommandHandler> logger, IMapper mapper)
+        public CreateUserCommandHandler(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ILogger<CreateUserCommandHandler> logger, IMapper mapper, IAppDbContext context)
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _logger = logger;
             _mapper = mapper;
+            _context = context;
         }
 
         public async Task<IdentityResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            //ApplicationUser user = new()
-            //{
-            //    UserName = request.Username,
-            //    DisplayName = request.DisplayName,
-            //    Email = request.Email,
-            //    PhoneNumber = request.PhoneNumber,
-            //    DepartmentId = request.DepartmentId,
-            //    OfficeId = request.OfficeId,
-            //    DesignationId = request.DesignationId,
-            //    IsActive = request.IsActive,
-            //    TwoFactorEnabled = request.IsTwoFactorEnabled
-            //};
             ApplicationUser user = _mapper.Map<ApplicationUser>(request);
+
+            // create domain event about user creation
+            user.DomainEvents.Add(new ApplicationUserCreatedEvent(user));
+            
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
@@ -87,8 +82,7 @@ namespace Application.Users.Commands.CreateUser
                     Console.WriteLine(ex.Message);
                 }
                 **/
-                // create domain event about user creation
-                user.DomainEvents.Add(new ApplicationUserCreatedEvent(user));
+                _ = await _context.SaveChangesAsync(cancellationToken);
             }
             return result;
         }

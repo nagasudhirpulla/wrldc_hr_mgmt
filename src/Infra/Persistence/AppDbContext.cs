@@ -13,6 +13,7 @@ using Core.Common;
 using Core.Entities;
 using Infra.Persistence.Configurations;
 using SmartEnum.EFCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infra.Persistence
 {
@@ -60,11 +61,30 @@ namespace Infra.Persistence
                 .SelectMany(x => x)
                 .Where(domainEvent => !domainEvent.IsPublished)
                 .ToArray();
-            await DispatchEvents(events);
 
-            var result = await base.SaveChangesAsync(cancellationToken);
-
-            return result;
+            if (this.Database.CurrentTransaction == null)
+            {
+                using IDbContextTransaction transaction = this.Database.BeginTransaction();
+                try
+                {
+                    var result = await base.SaveChangesAsync(cancellationToken);
+                    await DispatchEvents(events);
+                    transaction.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"rolling back changes occured while saving DB changes, {ex.Message}");
+                    throw;
+                }
+            }
+            else
+            {
+                var result = await base.SaveChangesAsync(cancellationToken);
+                await DispatchEvents(events);
+                return result;
+            }
         }
 
         private async Task DispatchEvents(DomainEvent[] events)
