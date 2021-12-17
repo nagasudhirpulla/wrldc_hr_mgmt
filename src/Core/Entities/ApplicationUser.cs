@@ -31,7 +31,6 @@ namespace Core.Entities
         public SpeciallyAbledEnum SpeciallyAbled { get; set; }
         public string Aadhar { get; set; }
         public string PAN { get; set; }
-        public string EmailId { get; set; }
         public string UAN { get; set; }
         public string PRAN { get; set; }
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();

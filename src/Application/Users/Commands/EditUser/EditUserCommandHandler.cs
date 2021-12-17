@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Enums;
 
 namespace Application.Users.Commands.EditUser
 {
@@ -106,41 +107,6 @@ namespace Application.Users.Commands.EditUser
                 }
             }
 
-            // update DisplayName
-            if (user.DisplayName != request.DisplayName)
-            {
-                user.DisplayName = request.DisplayName;
-                await _userManager.UpdateAsync(user);
-            }
-
-            // update OfficeId
-            if (user.OfficeId != request.OfficeId)
-            {
-                user.OfficeId = request.OfficeId;
-                await _userManager.UpdateAsync(user);
-            }
-
-            // update Designation
-            if (user.DesignationId != request.DesignationId)
-            {
-                user.DesignationId = request.DesignationId;
-                await _userManager.UpdateAsync(user);
-            }
-
-            // update GenderId
-            if (user.DepartmentId != request.DepartmentId)
-            {
-                user.DepartmentId = request.DepartmentId;
-                await _userManager.UpdateAsync(user);
-            }
-
-            // update IsActive
-            if (user.IsActive != request.IsActive)
-            {
-                user.IsActive = request.IsActive;
-                await _userManager.UpdateAsync(user);
-            }
-
             // check if two factor authentication to be changed
             if (user.TwoFactorEnabled != request.IsTwoFactorEnabled)
             {
@@ -153,6 +119,27 @@ namespace Application.Users.Commands.EditUser
                 {
                     identityErrors.AddRange(twoFactorChangeResult.Errors);
                 }
+            }
+
+            user.DisplayName = request.DisplayName;
+            user.OfficeId = request.OfficeId;
+            user.IsActive = request.IsActive;
+            user.FatherName = request.FatherName;
+            user.DoB = request.DoB;
+            user.DateofJoining = request.DateofJoining;
+            user.Gender = GenderEnum.FromValue(request.Gender);
+            user.EthnicOrigin = EthnicOriginEnum.FromValue(request.EthnicOrigin);
+            user.DomicileState = request.DomicileState;
+            user.Religion = request.Religion;
+            user.SpeciallyAbled = SpeciallyAbledEnum.FromValue(request.SpeciallyAbled);
+            user.Aadhar = request.Aadhar;
+            user.PAN = request.PAN;
+            user.UAN = request.UAN;
+            user.PRAN = request.PRAN;
+            IdentityResult updateRes = await _userManager.UpdateAsync(user);
+            if (!updateRes.Succeeded)
+            {
+                identityErrors.AddRange(updateRes.Errors);
             }
 
             foreach (IdentityError iError in identityErrors)

@@ -1,4 +1,5 @@
 ﻿@page
+@using Core.Enums
 @model WebApp.Pages.Users.EditModel
 @{
     ViewData["Title"] = "Edit User";
@@ -52,14 +53,64 @@
                 <span asp-validation-for="UpUser.OfficeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UpUser.DesignationId"></label>
-                <select asp-for="UpUser.DesignationId" class="form-control" asp-items="Model.DesigOptions"></select>
-                <span asp-validation-for="UpUser.DesignationId" class="text-danger"></span>
+                <label asp-for="UpUser.FatherName"></label>
+                <input asp-for="UpUser.FatherName" class="form-control" />
+                <span asp-validation-for="UpUser.FatherName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Department</label>
-                <select asp-for="UpUser.DepartmentId" class="form-control" asp-items="Model.DeptOptions"></select>
-                <span asp-validation-for="UpUser.DepartmentId" class="text-danger"></span>
+                <label asp-for="UpUser.DoB"></label>
+                <input asp-for="UpUser.DoB" class="form-control" type="date" />
+                <span asp-validation-for="UpUser.DoB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.DateofJoining"></label>
+                <input asp-for="UpUser.DateofJoining" class="form-control" type="date" />
+                <span asp-validation-for="UpUser.DateofJoining" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.Gender"></label>
+                <select asp-for="UpUser.Gender" class="form-control" asp-items="@(new SelectList(GenderEnum.List, "Value", "Name"))"></select>
+                <span asp-validation-for="UpUser.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.EthnicOrigin"></label>
+                <select asp-for="UpUser.EthnicOrigin" class="form-control" asp-items="@(new SelectList(EthnicOriginEnum.List, "Value", "Name"))"></select>
+                <span asp-validation-for="UpUser.EthnicOrigin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.DomicileState"></label>
+                <input asp-for="UpUser.DomicileState" class="form-control" />
+                <span asp-validation-for="UpUser.DomicileState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.Religion"></label>
+                <input asp-for="UpUser.Religion" class="form-control" />
+                <span asp-validation-for="UpUser.Religion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.SpeciallyAbled"></label>
+                <select asp-for="UpUser.SpeciallyAbled" class="form-control" asp-items="@(new SelectList(SpeciallyAbledEnum.List, "Value", "Name"))"></select>
+                <span asp-validation-for="UpUser.SpeciallyAbled" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.Aadhar"></label>
+                <input asp-for="UpUser.Aadhar" class="form-control" />
+                <span asp-validation-for="UpUser.Aadhar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.PAN"></label>
+                <input asp-for="UpUser.PAN" class="form-control" />
+                <span asp-validation-for="UpUser.PAN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.UAN"></label>
+                <input asp-for="UpUser.UAN" class="form-control" />
+                <span asp-validation-for="UpUser.UAN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpUser.PRAN"></label>
+                <input asp-for="UpUser.PRAN" class="form-control" />
+                <span asp-validation-for="UpUser.PRAN" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UpUser.IsActive"></label>

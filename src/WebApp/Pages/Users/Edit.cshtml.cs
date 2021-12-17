@@ -38,8 +38,6 @@ namespace WebApp.Pages.Users
         [BindProperty]
         public EditUserCommand UpUser { get; set; }
 
-        public SelectList DeptOptions { get; set; }
-        public SelectList DesigOptions { get; set; }
         public SelectList URoles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -57,14 +55,14 @@ namespace WebApp.Pages.Users
 
             UpUser = _mapper.Map<EditUserCommand>(user);
 
-            await InitSelectListItems();
+            InitSelectListItems();
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await InitSelectListItems();
+            InitSelectListItems();
 
             ValidationResult validationCheck = new EditUserCommandValidator().Validate(UpUser);
             validationCheck.AddToModelState(ModelState, nameof(UpUser));
@@ -91,10 +89,8 @@ namespace WebApp.Pages.Users
             return Page();
         }
 
-        public async Task InitSelectListItems()
+        public void InitSelectListItems()
         {
-            DeptOptions = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
-            DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             URoles = new SelectList(SecurityConstants.GetRoles());
         }
     }
