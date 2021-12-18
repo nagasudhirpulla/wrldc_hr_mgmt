@@ -8,20 +8,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
+using MediatR;
+using Application.EmployeeDeptHistorys.Commands.EditDeptHistory;
+using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
+using AutoMapper;
+using Application.Departments.Queries.GetDepartments;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
+using WebApp.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
     public class EditModel : PageModel
     {
-        private readonly Infra.Persistence.AppDbContext _context;
+        private readonly ILogger<EditModel> _logger;
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public EditModel(Infra.Persistence.AppDbContext context)
+        public EditModel(IMediator mediator, IMapper mapper, ILogger<EditModel> logger)
         {
-            _context = context;
+            _mediator = mediator;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         [BindProperty]
-        public EmployeeDeptHistory EmployeeDeptHistory { get; set; }
+        public EditDeptHistoryCommand EmpDeptHistItem { get; set; }
         public SelectList DepartmentNameSL { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -30,15 +43,14 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             {
                 return NotFound();
             }
+            await InitSelectListItems();
+            EmpDeptHistItem = _mapper.Map<EditDeptHistoryCommand>(await _mediator.Send(new GetEmpDeptHistByIdQuery() { Id = id.Value }));
 
-            EmployeeDeptHistory = await _context.EmployeeDeptHistorys
-                .Include(e => e.Department).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (EmployeeDeptHistory == null)
+            if (EmpDeptHistItem == null)
             {
                 return NotFound();
             }
-           ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+
             return Page();
         }
 
@@ -46,35 +58,37 @@ namespace WebApp.Pages.EmployeeDeptHistorys
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            await InitSelectListItems();
+
+            ValidationResult validationCheck = new EditDeptHistoryCommandValidator().Validate(EmpDeptHistItem);
+            validationCheck.AddToModelState(ModelState, nameof(EmpDeptHistItem));
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(EmployeeDeptHistory).State = EntityState.Modified;
+            List<string> errors = await _mediator.Send(EmpDeptHistItem);
 
-            try
+            foreach (var error in errors)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeDeptHistoryExists(EmployeeDeptHistory.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                ModelState.AddModelError(string.Empty, error);
             }
 
-            return RedirectToPage("./Index");
+            // check if we have any errors and redirect if successful
+            if (errors.Count == 0)
+            {
+                _logger.LogInformation("User Department History edit operation successful");
+                return RedirectToPage($"./{nameof(Index)}", routeValues: new { usrId = EmpDeptHistItem.ApplicationUserId })
+                            .WithSuccess("User Department History editing done");
+            }
+
+            return Page();
         }
 
-        private bool EmployeeDeptHistoryExists(int id)
+        public async Task InitSelectListItems()
         {
-            return _context.EmployeeDeptHistorys.Any(e => e.Id == id);
+            DepartmentNameSL = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
         }
     }
 }

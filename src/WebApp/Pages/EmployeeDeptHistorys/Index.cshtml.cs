@@ -7,24 +7,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
+using MediatR;
+using Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
     public class IndexModel : PageModel
     {
-        private readonly Infra.Persistence.AppDbContext _context;
+        private readonly IMediator _mediator;
 
-        public IndexModel(Infra.Persistence.AppDbContext context)
+        public IndexModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        public IList<EmployeeDeptHistory> EmployeeDeptHistory { get;set; }
+        public IList<EmployeeDeptHistory> EmpDeptHistory { get; set; }
+        public string EmployeeId { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<ActionResult> OnGetAsync(string usrId)
         {
-            EmployeeDeptHistory = await _context.EmployeeDeptHistorys
-                .Include(e => e.Department).ToListAsync();
+            if (usrId == null)
+            {
+                return NotFound();
+            }
+            EmpDeptHistory = await _mediator.Send(new GetDeptHistoryForEmpQuery() { ApplicationUserId = usrId });
+            EmployeeId = usrId;
+            return Page();
         }
     }
 }

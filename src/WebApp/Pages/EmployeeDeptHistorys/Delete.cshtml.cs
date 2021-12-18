@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
+using MediatR;
+using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
+using Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
     public class DeleteModel : PageModel
     {
-        private readonly Infra.Persistence.AppDbContext _context;
+        private readonly IMediator _mediator;
 
-        public DeleteModel(Infra.Persistence.AppDbContext context)
+        public DeleteModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [BindProperty]
@@ -29,32 +32,26 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return NotFound();
             }
 
-            EmployeeDeptHistory = await _context.EmployeeDeptHistorys
-                .Include(e => e.Department).FirstOrDefaultAsync(m => m.Id == id);
+            EmployeeDeptHistory = await _mediator.Send(new GetEmpDeptHistByIdQuery() { Id = id.Value });
 
             if (EmployeeDeptHistory == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            //DeleteDeptHistoryCommand
+            List<string> errs = await _mediator.Send(new DeleteDeptHistoryCommand() { Id = EmployeeDeptHistory.Id });
+            if (errs.Count == 0)
             {
-                return NotFound();
+                return RedirectToPage("./Index", routeValues: new { usrId = EmployeeDeptHistory.ApplicationUserId });
             }
-
-            EmployeeDeptHistory = await _context.EmployeeDeptHistorys.FindAsync(id);
-
-            if (EmployeeDeptHistory != null)
-            {
-                _context.EmployeeDeptHistorys.Remove(EmployeeDeptHistory);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            ModelState.AddModelError(null, string.Join(", ", errs));
+            return Page();
         }
     }
 }

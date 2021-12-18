@@ -1,12 +1,17 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Notesheets.Commands.EditNotesheet
+namespace Application.EmployeeDeptHistorys.Commands.EditDeptHistory
 {
-    class EditDeptHistoryCommandValidator
+    public class EditDeptHistoryCommandValidator : AbstractValidator<EditDeptHistoryCommand>
     {
+        public EditDeptHistoryCommandValidator()
+        {
+            RuleFor(x => x.FromDate).NotEmpty();
+        }
     }
 }

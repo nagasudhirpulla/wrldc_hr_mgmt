@@ -32,7 +32,10 @@ namespace Application.Users.Queries.GetAppUsers
                     Users = new List<UserDTO>()
                 };
                 // get the list of users
-                List<ApplicationUser> users = await _userManager.Users.Include(u => u.Designation).Include(u => u.Department).OrderBy(u => u.UserName).ToListAsync(cancellationToken: cancellationToken);
+                List<ApplicationUser> users = await _userManager.Users
+                                                .Include(u => u.Designation).Include(u => u.Department)
+                                                .OrderBy(u => u.UserName)
+                                                .ToListAsync(cancellationToken: cancellationToken);
                 foreach (ApplicationUser user in users)
                 {
                     // get user is of admin role

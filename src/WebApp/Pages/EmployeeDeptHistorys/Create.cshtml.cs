@@ -10,6 +10,8 @@ using Infra.Persistence;
 using Application.EmployeeDeptHistorys.Commands.CreateDeptHistory;
 using MediatR;
 using Application.Departments.Queries.GetDepartments;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
@@ -24,10 +26,16 @@ namespace WebApp.Pages.EmployeeDeptHistorys
 
         public async Task<IActionResult> OnGetAsync(string usrId)
         {
-            NewDeptHistory = new();
-            NewDeptHistory.ApplicationUserId = usrId;
-            List<Department> depts = await _mediator.Send(new GetDepartmentsQuery());
-            DepartmentNameSL = new SelectList(depts, "Id", "Name");
+            if (usrId == null)
+            {
+                return NotFound();
+            }
+            await InitSelectListItems();
+            NewDeptHistory = new()
+            {
+                ApplicationUserId = usrId,
+                FromDate = DateTime.Now
+            };
             return Page();
         }
 
@@ -38,15 +46,28 @@ namespace WebApp.Pages.EmployeeDeptHistorys
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            await InitSelectListItems();
+
+            ValidationResult validationCheck = new CreateDeptHistoryCommandValidator().Validate(NewDeptHistory);
+            validationCheck.AddToModelState(ModelState, nameof(NewDeptHistory));
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _ = await _mediator.Send(NewDeptHistory);
+            List<string> errs = await _mediator.Send(NewDeptHistory);
+            if (errs.Count == 0)
+            {
+                return RedirectToPage($"./{nameof(Index)}", routeValues: new { usrId = NewDeptHistory.ApplicationUserId });
+            }
 
-            // TODO show errors in create page if present
-            return RedirectToPage("./Index");
+            ModelState.AddModelError(null, string.Join(", ", errs));
+            return Page();
+        }
+
+        public async Task InitSelectListItems()
+        {
+            DepartmentNameSL = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
         }
     }
 }

@@ -12,23 +12,19 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EmployeeDeptHistory.DepartmentId" class="control-label"></label>
-                <select asp-for="EmployeeDeptHistory.DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="EmployeeDeptHistory.DepartmentId" class="text-danger"></span>
+                <label asp-for="EmpDeptHistItem.DepartmentId" class="control-label"></label>
+                <select asp-for="EmpDeptHistItem.DepartmentId" class="form-control" asp-items="Model.DepartmentNameSL"></select>
+                <span asp-validation-for="EmpDeptHistItem.DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeDeptHistory.DepartmentId" class="control-label"></label>
-                <select asp-for="EmployeeDeptHistory.DepartmentId" class="form-control" asp-items="Model.DepartmentNameSL" />
-                <span asp-validation-for="EmployeeDeptHistory.DepartmentId" class="text-danger"></span>
+                <label class="control-label">Start Date</label>
+                <input asp-for="EmpDeptHistItem.FromDate" class="form-control" type="date" />
+                <span asp-validation-for="EmpDeptHistItem.FromDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EmployeeDeptHistory.FromDate" class="control-label"></label>
-                <input asp-for="EmployeeDeptHistory.FromDate" class="form-control" />
-                <span asp-validation-for="EmployeeDeptHistory.FromDate" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="EmployeeDeptHistory.Id" />
+            <input type="hidden" asp-for="EmpDeptHistItem.Id" />
+            <input type="hidden" asp-for="EmpDeptHistItem.ApplicationUserId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -37,7 +33,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index" asp-route-usrId="@Model.EmpDeptHistItem.ApplicationUserId">Back to List</a>
 </div>
 
 @section Scripts {

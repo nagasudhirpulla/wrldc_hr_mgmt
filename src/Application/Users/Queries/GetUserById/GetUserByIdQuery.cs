@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Users.Queries.GetAppUsers;
 using Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Users.Queries.GetUserById
 {
@@ -32,8 +33,9 @@ namespace Application.Users.Queries.GetUserById
                 {
                     return null;
                 }
-
-                ApplicationUser user = await _userManager.FindByIdAsync(request.Id);
+                ApplicationUser user = await _userManager.Users
+                                        .Include(x => x.Department).Include(x => x.Designation)
+                                        .SingleAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
                 if (user == null)
                 {
                     return null;

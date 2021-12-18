@@ -13,13 +13,12 @@ namespace Application.EmployeeDeptHistorys.Commands.EditDeptHistory
     public class EditDeptHistoryCommand : IRequest<List<string>>, IMapFrom<EmployeeDeptHistory>
     {
         public int Id { get; set; }
+        public string ApplicationUserId { get; set; }
         public DateTime FromDate { get; set; }
         public int DepartmentId { get; set; }
-        
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<EmployeeDeptHistory, EditDeptHistoryCommand>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id));
+            profile.CreateMap<EmployeeDeptHistory, EditDeptHistoryCommand>();
         }
     }
 }

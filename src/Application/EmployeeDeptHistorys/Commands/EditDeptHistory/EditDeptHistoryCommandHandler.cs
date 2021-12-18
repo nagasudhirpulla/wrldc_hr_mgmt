@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Application.Users;
 using AutoMapper;
 using Core.Entities;
+using Core.Events;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,74 +20,57 @@ namespace Application.EmployeeDeptHistorys.Commands.EditDeptHistory
     public class EditDeptHistoryCommandHandler : IRequestHandler<EditDeptHistoryCommand, List<string>>
     {
         private readonly ILogger<EditDeptHistoryCommandHandler> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IAppDbContext _context;
-        private readonly IMapper _mapper;
 
-        public EditDeptHistoryCommandHandler(ILogger<EditDeptHistoryCommandHandler> logger, IAppDbContext context, ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
+        public EditDeptHistoryCommandHandler(ILogger<EditDeptHistoryCommandHandler> logger, IAppDbContext context)
         {
             _logger = logger;
             _context = context;
-            _currentUserService = currentUserService;
-            _userManager = userManager;
         }
 
         public async Task<List<string>> Handle(EditDeptHistoryCommand request, CancellationToken cancellationToken)
         {
-            string curUsrId = _currentUserService.UserId;
-            ApplicationUser curUsr = await _userManager.FindByIdAsync(curUsrId);
-            if (curUsr == null)
-            {
-                var errorMsg = "User not found for editing proposal";
-                _logger.LogError(errorMsg);
-                return new List<string>() { errorMsg };
-            }
+            EmployeeDeptHistory deptHistItem = await _context.EmployeeDeptHistorys
+                                                .Where(deptHist => deptHist.Id == request.Id)
+                                                .FirstOrDefaultAsync(cancellationToken);
 
-            // fetch the notesheet for editing
-            var employeeDeptHistory = await _context.EmployeeDeptHistorys.Where(deptHist => deptHist.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
-
-            if (employeeDeptHistory == null)
+            if (deptHistItem == null)
             {
                 string errorMsg = $"Employee Dept History Id {request.Id} not present for editing";
                 return new List<string>() { errorMsg };
             }
 
-            // check if user is authorized for editing proposal
-            IList<string> usrRoles = await _userManager.GetRolesAsync(curUsr);
-            if (curUsr.UserName != employeeDeptHistory.CreatedBy && !usrRoles.Contains(SecurityConstants.AdminRoleString))
+            // check if editing is required
+            bool isEditRequired = false;
+            if (deptHistItem.DepartmentId != request.DepartmentId || deptHistItem.FromDate != request.FromDate)
             {
-                return new List<string>() { "This user is not authorized for updating this proposal since this is not his created by this user and he is not in admin role" };
+                isEditRequired = true;
             }
+            if (isEditRequired)
+            {
+                deptHistItem.FromDate = request.FromDate;
+                deptHistItem.DepartmentId = request.DepartmentId;
 
-            if (employeeDeptHistory.FromDate != request.FromDate) //new field
-            {
-                employeeDeptHistory.FromDate = request.FromDate;
-            }
-            if (employeeDeptHistory.DepartmentId != request.DepartmentId)
-            {
-                employeeDeptHistory.DepartmentId = request.DepartmentId;
-            }
-            
-
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.EmployeeDeptHistorys.Any(e => e.Id == request.Id))
+                try
                 {
-                    return new List<string>() { $"Employee Dept History Id {request.Id} not present for editing" };
+                    // attach event
+                    deptHistItem.DomainEvents.Add(new EmployeeDeptHistoryChangedEvent(deptHistItem.ApplicationUserId));
+                    // commit to database
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!_context.EmployeeDeptHistorys.Any(e => e.Id == request.Id))
+                    {
+                        return new List<string>() { $"Employee Dept History Id {request.Id} not present for editing" };
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
-
             return new List<string>();
-
         }
     }
 }
