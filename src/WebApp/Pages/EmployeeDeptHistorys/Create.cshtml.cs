@@ -12,9 +12,12 @@ using MediatR;
 using Application.Departments.Queries.GetDepartments;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
+using Application.Users;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class CreateModel : PageModel
     {
         private readonly IMediator _mediator;

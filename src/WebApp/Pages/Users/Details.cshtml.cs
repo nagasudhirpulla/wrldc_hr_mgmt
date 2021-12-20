@@ -12,23 +12,20 @@ using Application.Users;
 using Application.Users.Queries.GetAppUsers;
 using Application.Users.Queries.GetUserById;
 using Core.Entities;
+using Application.Users.Queries.IsUsrSelfOrAdmin;
 
 namespace WebApp.Pages.Users
 {
     public class DetailsModel : PageModel
     {
 
-        private readonly ILogger<DetailsModel> _logger;
         private readonly IMediator _mediator;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICurrentUserService _currentUserService;
 
-        public DetailsModel(ILogger<DetailsModel> logger, IMediator mediator, ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
+        public DetailsModel(IMediator mediator, ICurrentUserService currentUserService)
         {
-            _logger = logger;
             _mediator = mediator;
             _currentUserService = currentUserService;
-            _userManager = userManager;
         }
         public UserDTO CUser { get; set; }
 
@@ -36,10 +33,10 @@ namespace WebApp.Pages.Users
         {
             // check if user is authorized
             string curUsrId = _currentUserService.UserId;
-            ApplicationUser curUsr = await _userManager.FindByIdAsync(curUsrId);
-            IList<string> usrRoles = await _userManager.GetRolesAsync(curUsr);
-            if (id != null && curUsrId != id
-                && !usrRoles.Contains(SecurityConstants.AdminRoleString))
+
+            // show details only for self or admin
+            bool isUsrSelfOrAdmin = await _mediator.Send(new IsUsrSelfOrAdminQuery() { UsrId = id ?? curUsrId });
+            if (!isUsrSelfOrAdmin)
             {
                 return Unauthorized();
             }

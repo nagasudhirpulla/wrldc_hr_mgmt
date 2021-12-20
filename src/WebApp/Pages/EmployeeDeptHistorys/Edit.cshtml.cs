@@ -17,9 +17,12 @@ using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using WebApp.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Application.Users;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class EditModel : PageModel
     {
         private readonly ILogger<EditModel> _logger;

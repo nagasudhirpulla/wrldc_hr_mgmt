@@ -9,6 +9,11 @@ using Core.Entities;
 using Infra.Persistence;
 using MediatR;
 using Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp;
+using Application.Users;
+using Microsoft.AspNetCore.Authorization;
+using Application.Common;
+using Microsoft.AspNetCore.Identity;
+using Application.Users.Queries.IsUsrSelfOrAdmin;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
@@ -29,6 +34,11 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             if (usrId == null)
             {
                 return NotFound();
+            }
+            bool isUsrSelfOrAdmin = await _mediator.Send(new IsUsrSelfOrAdminQuery() { UsrId = usrId });
+            if (!isUsrSelfOrAdmin)
+            {
+                return Unauthorized();
             }
             EmpDeptHistory = await _mediator.Send(new GetDeptHistoryForEmpQuery() { ApplicationUserId = usrId });
             EmployeeId = usrId;

@@ -10,9 +10,12 @@ using Infra.Persistence;
 using MediatR;
 using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
 using Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory;
+using Application.Users;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
+    [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class DeleteModel : PageModel
     {
         private readonly IMediator _mediator;

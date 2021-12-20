@@ -9,6 +9,9 @@ using Core.Entities;
 using Infra.Persistence;
 using MediatR;
 using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
+using Application.Common;
+using Microsoft.AspNetCore.Identity;
+using Application.Users.Queries.IsUsrSelfOrAdmin;
 
 namespace WebApp.Pages.EmployeeDeptHistorys
 {
@@ -34,8 +37,16 @@ namespace WebApp.Pages.EmployeeDeptHistorys
 
             if (EmpDeptHistory == null)
             {
-                return Page();
+                return NotFound();
             }
+
+            // show details only for self or admin
+            bool isUsrSelfOrAdmin = await _mediator.Send(new IsUsrSelfOrAdminQuery() { UsrId = EmpDeptHistory.ApplicationUserId });
+            if (!isUsrSelfOrAdmin)
+            {
+                return Unauthorized();
+            }
+
             return Page();
         }
     }
