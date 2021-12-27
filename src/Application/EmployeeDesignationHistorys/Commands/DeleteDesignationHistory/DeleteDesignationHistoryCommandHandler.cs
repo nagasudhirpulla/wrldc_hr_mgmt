@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory
+namespace Application.EmployeeDesignationHistorys.Commands.DeleteDesignationHistory
 {
     public class DeleteDesignationHistoryCommandHandler : IRequestHandler<DeleteDesignationHistoryCommand, List<string>>
     {
@@ -21,18 +21,18 @@ namespace Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory
 
         public async Task<List<string>> Handle(DeleteDesignationHistoryCommand request, CancellationToken cancellationToken)
         {
-            EmployeeDeptHistory deptHistItem = await _context.EmployeeDeptHistorys.FindAsync(request.Id);
+            EmployeeDesignationHistory employeeHistItem = await _context.EmployeeDesignationHistorys.FindAsync(request.Id);
 
-            if (deptHistItem == null)
+            if (employeeHistItem == null)
             {
-                string errorMsg = $"Employee Dept History Id {request.Id} not present for deleting";
+                string errorMsg = $"Employee Designation History Id {request.Id} not present for deleting";
                 return new List<string>() { errorMsg };
             }
 
-            _context.EmployeeDeptHistorys.Remove(deptHistItem);
+            _context.EmployeeDesignationHistorys.Remove(employeeHistItem);
 
             // attach event
-            deptHistItem.DomainEvents.Add(new EmployeeDeptHistoryChangedEvent(deptHistItem.ApplicationUserId));
+            employeeHistItem.DomainEvents.Add(new EmployeeDeptHistoryChangedEvent(employeeHistItem.ApplicationUserId));
             // commit to database
             _ = await _context.SaveChangesAsync(cancellationToken);
 

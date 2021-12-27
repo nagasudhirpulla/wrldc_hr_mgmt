@@ -1,0 +1,37 @@
+﻿@page
+@model WebApp.Pages.EmployeeDesignationHistorys.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EmployeeDesignationHistory</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmpDesignationHistory.ApplicationUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmpDesignationHistory.ApplicationUser.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmpDesignationHistory.Designation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmpDesignationHistory.Designation.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmpDesignationHistory.FromDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmpDesignationHistory.FromDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.EmpDesignationHistory.Id">Edit</a> |
+    <a asp-page="./Index" asp-route-usrId="@Model.EmpDesignationHistory.ApplicationUser.Id">Back to List</a>
+</div>

@@ -56,9 +56,6 @@ namespace Infra.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("EmailId")
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("EthnicOrigin")
                         .HasColumnType("INTEGER");
 
@@ -255,6 +252,45 @@ namespace Infra.Migrations
                     b.ToTable("EmployeeDeptHistorys");
                 });
 
+            modelBuilder.Entity("Core.Entities.EmployeeDesignationHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DesignationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DesignationId");
+
+                    b.HasIndex("FromDate", "ApplicationUserId", "DesignationId")
+                        .IsUnique();
+
+                    b.ToTable("EmployeeDesignationHistorys");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -418,6 +454,24 @@ namespace Infra.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Core.Entities.EmployeeDesignationHistory", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Core.Entities.Designation", "Designation")
+                        .WithMany()
+                        .HasForeignKey("DesignationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Designation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

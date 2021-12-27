@@ -1,5 +1,5 @@
 ﻿using Application.Common.Models;
-using Application.Users.Commands.UpdateUserLatestDept;
+using Application.Users.Commands.UpdateUserLatestDesignation;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeDeptHistorys.EventHandlers
+namespace Application.EmployeeDesignationHistorys.EventHandlers
 {
-    public class EmployeeDesignationHistoryChangedEventHandler : INotificationHandler<DomainEventNotification<EmployeeDeptHistoryChangedEvent>>
+    public class EmployeeDesignationHistoryChangedEventHandler : INotificationHandler<DomainEventNotification<EmployeeDesignationHistoryChangedEvent>>
     {
         private readonly ILogger<EmployeeDesignationHistoryChangedEventHandler> _logger;
         private readonly IMediator _mediator;
@@ -23,14 +23,14 @@ namespace Application.EmployeeDeptHistorys.EventHandlers
             _mediator = mediator;
         }
 
-        public async Task Handle(DomainEventNotification<EmployeeDeptHistoryChangedEvent> notification, CancellationToken cancellationToken)
+        public async Task Handle(DomainEventNotification<EmployeeDesignationHistoryChangedEvent> notification, CancellationToken cancellationToken)
         {
             var domainEvent = notification.DomainEvent;
 
             _logger.LogInformation("Domain Event: {DomainEvent}", domainEvent.GetType().Name);
 
             // update user's latest department data
-            _ = await _mediator.Send(new UpdateUserLatestDeptCommand() { ApplicationUserId = domainEvent.ApplicationUserId }, cancellationToken);
+            _ = await _mediator.Send(new UpdateUserLatestDesignationCommand() { ApplicationUserId = domainEvent.ApplicationUserId }, cancellationToken);
         }
     }
 }

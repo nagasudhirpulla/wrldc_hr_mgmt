@@ -9,25 +9,25 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp
+namespace Application.EmployeeDesignationHistorys.Queries.GetDesignationHistoryForEmp
 {
-    public class GetDesignationHistoryForEmpQuery : IRequest<List<EmployeeDeptHistory>>
+    public class GetDesignationHistoryForEmpQuery : IRequest<List<EmployeeDesignationHistory>>
     {
         public string ApplicationUserId { get; set; }
-        public class GetDeptHistoryForEmpQueryHandler : IRequestHandler<GetDesignationHistoryForEmpQuery, List<EmployeeDeptHistory>>
+        public class GetDesignationHistoryForEmpQueryHandler : IRequestHandler<GetDesignationHistoryForEmpQuery, List<EmployeeDesignationHistory>>
         {
             private readonly IAppDbContext _context;
 
-            public GetDeptHistoryForEmpQueryHandler(IAppDbContext context)
+            public GetDesignationHistoryForEmpQueryHandler(IAppDbContext context)
             {
                 _context = context;
             }
 
-            public async Task<List<EmployeeDeptHistory>> Handle(GetDesignationHistoryForEmpQuery request, CancellationToken cancellationToken)
+            public async Task<List<EmployeeDesignationHistory>> Handle(GetDesignationHistoryForEmpQuery request, CancellationToken cancellationToken)
             {
-                List<EmployeeDeptHistory> res = await _context.EmployeeDeptHistorys
+                List<EmployeeDesignationHistory> res = await _context.EmployeeDesignationHistorys
                                                     .Where(e => e.ApplicationUserId == request.ApplicationUserId)
-                                                    .Include(e => e.Department)
+                                                    .Include(e => e.Designation)
                                                     .Include(e => e.ApplicationUser)
                                                     .ToListAsync(cancellationToken: cancellationToken);
                 return res;

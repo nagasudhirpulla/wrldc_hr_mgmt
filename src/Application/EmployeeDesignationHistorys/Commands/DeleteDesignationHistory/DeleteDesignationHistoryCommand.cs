@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory
+namespace Application.EmployeeDesignationHistorys.Commands.DeleteDesignationHistory
 {
     public class DeleteDesignationHistoryCommand : IRequest<List<string>>
     {

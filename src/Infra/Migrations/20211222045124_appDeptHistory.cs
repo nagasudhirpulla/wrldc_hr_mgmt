@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infra.Migrations
 {
-    public partial class init : Migration
+    public partial class appDeptHistory : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,7 +98,6 @@ namespace Infra.Migrations
                     SpeciallyAbled = table.Column<int>(type: "INTEGER", nullable: true),
                     Aadhar = table.Column<string>(type: "TEXT", nullable: true),
                     PAN = table.Column<string>(type: "TEXT", nullable: true),
-                    EmailId = table.Column<string>(type: "TEXT", nullable: true),
                     UAN = table.Column<string>(type: "TEXT", nullable: true),
                     PRAN = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
@@ -240,7 +239,7 @@ namespace Infra.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeDeptHistorys_Departments_DepartmentId",
                         column: x => x.DepartmentId,

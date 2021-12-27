@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
 using MediatR;
-using Application.EmployeeDeptHistorys.Commands.EditDeptHistory;
-using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
+using Application.EmployeeDesignationHistorys.Commands.EditDesignationHistory;
+using Application.EmployeeDesignationHistorys.Queries.GetEmpDesignationHistById;
 using AutoMapper;
-using Application.Departments.Queries.GetDepartments;
+using Application.Designations.Queries.GetDesignations;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using WebApp.Extensions;
@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Application.Users;
 
-namespace WebApp.Pages.EmployeeDeptHistorys
+namespace WebApp.Pages.EmployeeDesignationHistorys
 {
     [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class EditModel : PageModel
@@ -37,8 +37,8 @@ namespace WebApp.Pages.EmployeeDeptHistorys
         }
 
         [BindProperty]
-        public EditDeptHistoryCommand EmpDeptHistItem { get; set; }
-        public SelectList DepartmentNameSL { get; set; }
+        public EditDesignationHistoryCommand EmpDesignationHistItem { get; set; }
+        public SelectList DesignationNameSL { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -47,9 +47,9 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return NotFound();
             }
             await InitSelectListItems();
-            EmpDeptHistItem = _mapper.Map<EditDeptHistoryCommand>(await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value }));
+            EmpDesignationHistItem = _mapper.Map<EditDesignationHistoryCommand>(await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value }));
 
-            if (EmpDeptHistItem == null)
+            if (EmpDesignationHistItem == null)
             {
                 return NotFound();
             }
@@ -63,15 +63,15 @@ namespace WebApp.Pages.EmployeeDeptHistorys
         {
             await InitSelectListItems();
 
-            ValidationResult validationCheck = new EditDeptHistoryCommandValidator().Validate(EmpDeptHistItem);
-            validationCheck.AddToModelState(ModelState, nameof(EmpDeptHistItem));
+            ValidationResult validationCheck = new EditDesignationHistoryCommandValidator().Validate(EmpDesignationHistItem);
+            validationCheck.AddToModelState(ModelState, nameof(EmpDesignationHistItem));
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            List<string> errors = await _mediator.Send(EmpDeptHistItem);
+            List<string> errors = await _mediator.Send(EmpDesignationHistItem);
 
             foreach (var error in errors)
             {
@@ -81,9 +81,9 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             // check if we have any errors and redirect if successful
             if (errors.Count == 0)
             {
-                _logger.LogInformation("User Department History edit operation successful");
-                return RedirectToPage($"./{nameof(Index)}", routeValues: new { usrId = EmpDeptHistItem.ApplicationUserId })
-                            .WithSuccess("User Department History editing done");
+                _logger.LogInformation("User Designation History edit operation successful");
+                return RedirectToPage($"./{nameof(Index)}", routeValues: new { usrId = EmpDesignationHistItem.ApplicationUserId })
+                            .WithSuccess("User Designation History editing done");
             }
 
             return Page();
@@ -91,7 +91,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
 
         public async Task InitSelectListItems()
         {
-            DepartmentNameSL = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
+            DesignationNameSL = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
         }
     }
 }

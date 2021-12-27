@@ -8,25 +8,31 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
 using MediatR;
-using Application.EmployeeDeptHistorys.Queries.GetEmpDeptHistById;
-using Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory;
+using Application.EmployeeDesignationHistorys.Queries.GetEmpDesignationHistById;
+using Application.EmployeeDesignationHistorys.Commands.DeleteDesignationHistory;
 using Application.Users;
 using Microsoft.AspNetCore.Authorization;
+using WebApp.Extensions;
+using Application.Common;
+using Application.Users.Queries.GetAppUsers;
+using Application.Users.Queries.GetUserById;
 
-namespace WebApp.Pages.EmployeeDeptHistorys
+namespace WebApp.Pages.EmployeeDesignationHistorys
 {
     [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class DeleteModel : PageModel
     {
         private readonly IMediator _mediator;
+        private readonly ICurrentUserService _currentUserService;
 
-        public DeleteModel(IMediator mediator)
+        public DeleteModel(IMediator mediator, ICurrentUserService currentUserService)
         {
             _mediator = mediator;
+            _currentUserService = currentUserService;
         }
 
         [BindProperty]
-        public EmployeeDeptHistory EmployeeDeptHistory { get; set; }
+        public EmployeeDesignationHistory EmployeeDesignationHistory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,10 +40,9 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             {
                 return NotFound();
             }
+            EmployeeDesignationHistory = await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value });
 
-            EmployeeDeptHistory = await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value });
-
-            if (EmployeeDeptHistory == null)
+            if (EmployeeDesignationHistory == null)
             {
                 return NotFound();
             }
@@ -47,11 +52,12 @@ namespace WebApp.Pages.EmployeeDeptHistorys
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             //DeleteDeptHistoryCommand
-            List<string> errs = await _mediator.Send(new DeleteDesignationHistoryCommand() { Id = EmployeeDeptHistory.Id });
+            List<string> errs = await _mediator.Send(new DeleteDesignationHistoryCommand() { Id = EmployeeDesignationHistory.Id });
             if (errs.Count == 0)
             {
-                return RedirectToPage("./Index", routeValues: new { usrId = EmployeeDeptHistory.ApplicationUserId });
+                return RedirectToPage("./Index", routeValues: new { usrId = EmployeeDesignationHistory.ApplicationUserId });
             }
             ModelState.AddModelError(null, string.Join(", ", errs));
             return Page();

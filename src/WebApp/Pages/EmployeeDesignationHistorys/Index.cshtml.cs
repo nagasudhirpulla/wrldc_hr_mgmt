@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Infra.Persistence;
 using MediatR;
-using Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp;
+using Application.EmployeeDesignationHistorys.Queries.GetDesignationHistoryForEmp;
 using Application.Users;
 using Microsoft.AspNetCore.Authorization;
 using Application.Common;
 using Microsoft.AspNetCore.Identity;
 using Application.Users.Queries.IsUsrSelfOrAdmin;
 
-namespace WebApp.Pages.EmployeeDeptHistorys
+namespace WebApp.Pages.EmployeeDesignationHistorys
 {
     public class IndexModel : PageModel
     {
@@ -26,7 +26,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             _mediator = mediator;
         }
 
-        public IList<EmployeeDeptHistory> EmpDeptHistory { get; set; }
+        public IList<EmployeeDesignationHistory> EmpDesignationHistory { get; set; }
         public string EmployeeId { get; set; }
 
         public async Task<ActionResult> OnGetAsync(string usrId)
@@ -40,7 +40,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             {
                 return Unauthorized();
             }
-            EmpDeptHistory = await _mediator.Send(new GetDesignationHistoryForEmpQuery() { ApplicationUserId = usrId });
+            EmpDesignationHistory = await _mediator.Send(new GetDesignationHistoryForEmpQuery() { ApplicationUserId = usrId });
             EmployeeId = usrId;
             return Page();
         }

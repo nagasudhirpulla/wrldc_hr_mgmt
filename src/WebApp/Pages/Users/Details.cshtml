@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>Designation</td>
-            <td>@Model.CUser.Designation</td>
+            <td>@Model.CUser.Designation | <a asp-page="/EmployeeDesignationHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View Designation History</a></td>
         </tr>
         <tr>
             <td>Email</td>
@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td>Department</td>
-            <td>@Model.CUser.Department | <a asp-page="/EmployeeDeptHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View History</a></td>
+            <td>@Model.CUser.Department | <a asp-page="/EmployeeDeptHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View Department History</a></td>
         </tr>
         <tr>
             <td>Role</td>

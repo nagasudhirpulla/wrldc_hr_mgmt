@@ -1,0 +1,41 @@
+﻿@page
+@model WebApp.Pages.EmployeeDesignationHistorys.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>EmployeeDeptHistory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmpDesignationHistItem.DesignationId" class="control-label"></label>
+                <select asp-for="EmpDesignationHistItem.DesignationId" class="form-control" asp-items="Model.DesignationNameSL"></select>
+                <span asp-validation-for="EmpDesignationHistItem.DesignationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Start Date</label>
+                <input asp-for="EmpDesignationHistItem.FromDate" class="form-control" type="date" />
+                <span asp-validation-for="EmpDesignationHistItem.FromDate" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="EmpDesignationHistItem.Id" />
+            <input type="hidden" asp-for="EmpDesignationHistItem.ApplicationUserId" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-usrId="@Model.EmpDesignationHistItem.ApplicationUserId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

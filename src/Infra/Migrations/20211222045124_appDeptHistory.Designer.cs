@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211216162922_cascade")]
-    partial class cascade
+    [Migration("20211222045124_appDeptHistory")]
+    partial class appDeptHistory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,9 +57,6 @@ namespace Infra.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("EmailId")
-                        .HasColumnType("TEXT");
 
                     b.Property<int?>("EthnicOrigin")
                         .HasColumnType("INTEGER");

@@ -12,9 +12,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Users.Commands.UpdateUserLatestDept
+namespace Application.Users.Commands.UpdateUserLatestDesignation
 {
-    public class UpdateUserLatestDesignationCommandHandler : IRequestHandler<UpdateUserLatestDeptCommand, List<string>>
+    public class UpdateUserLatestDesignationCommandHandler : IRequestHandler<UpdateUserLatestDesignationCommand, List<string>>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAppDbContext _context;
@@ -24,7 +24,7 @@ namespace Application.Users.Commands.UpdateUserLatestDept
             _context = context;
         }
 
-        public async Task<List<string>> Handle(UpdateUserLatestDeptCommand request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(UpdateUserLatestDesignationCommand request, CancellationToken cancellationToken)
         {
             List<string> errors = new();
             if (request.ApplicationUserId == null)
@@ -40,22 +40,22 @@ namespace Application.Users.Commands.UpdateUserLatestDept
                 return errors;
             }
 
-            // get the latest latest department for the given application user
-            EmployeeDeptHistory usrLatestDeptInfo = await _context.EmployeeDeptHistorys
+            // get the latest latest designation for the given application user
+            EmployeeDesignationHistory usrLatestDesignationInfo = await _context.EmployeeDesignationHistorys
                         .Where(x => x.ApplicationUserId == request.ApplicationUserId)
                         .OrderByDescending(x => x.FromDate)
                         .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            int? latestDeptId = null;
+            int? latestDesignationId = null;
 
-            if (usrLatestDeptInfo != null)
+            if (usrLatestDesignationInfo != null)
             {
-                latestDeptId = usrLatestDeptInfo.DepartmentId;
+                latestDesignationId = usrLatestDesignationInfo.DesignationId;
             }
 
-            if (user.DepartmentId != latestDeptId)
+            if (user.DesignationId != latestDesignationId)
             {
-                user.DepartmentId = latestDeptId;
+                user.DesignationId = latestDesignationId;
                 IdentityResult res = await _userManager.UpdateAsync(user);
                 if (!res.Succeeded)
                 {

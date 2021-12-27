@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.EmployeeDeptHistorys.Commands.CreateDeptHistory;
+using Application.EmployeeDesignationHistorys.Commands.CreateDesignationHistory;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -39,6 +40,17 @@ namespace Application.Users.EventHandlers
                     FromDate = notification.DomainEvent.AppUser.DateofJoining
                 };
                 _ = await _mediator.Send(NewDeptHistory, cancellationToken);
+            }
+            // create department history for the user
+            if (notification.DomainEvent.AppUser.DepartmentId.HasValue)
+            {
+                CreateDesignationHistoryCommand NewDesignationHistory = new()
+                {
+                    ApplicationUserId = notification.DomainEvent.AppUser.Id,
+                    DesignationId = notification.DomainEvent.AppUser.DesignationId.Value,
+                    FromDate = notification.DomainEvent.AppUser.DateofJoining
+                };
+                _ = await _mediator.Send(NewDesignationHistory, cancellationToken);
             }
         }
     }

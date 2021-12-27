@@ -1,0 +1,40 @@
+﻿@page
+@model WebApp.Pages.EmployeeDesignationHistorys.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>NewDesignationHistory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="NewDesignationHistory.ApplicationUserId" type="hidden" />
+            <div class="form-group">
+                <label class="control-label">Designation</label>
+                <select asp-for="NewDesignationHistory.DesignationId" class="form-control" asp-items="Model.DesignationNameSL"></select>
+                <span asp-validation-for="NewDesignationHistory.DesignationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewDesignationHistory.FromDate" class="control-label"></label>
+                <input asp-for="NewDesignationHistory.FromDate" class="form-control" type="date" />
+                <span asp-validation-for="NewDesignationHistory.FromDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
