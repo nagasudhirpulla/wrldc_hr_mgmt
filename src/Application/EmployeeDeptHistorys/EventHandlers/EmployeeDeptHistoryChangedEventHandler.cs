@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeeDeptHistorys.EventHandlers
 {
-    public class EmployeeDesignationHistoryChangedEventHandler : INotificationHandler<DomainEventNotification<EmployeeDeptHistoryChangedEvent>>
+    public class EmployeeDeptHistoryChangedEventHandler : INotificationHandler<DomainEventNotification<EmployeeDeptHistoryChangedEvent>>
     {
-        private readonly ILogger<EmployeeDesignationHistoryChangedEventHandler> _logger;
+        private readonly ILogger<EmployeeDeptHistoryChangedEventHandler> _logger;
         private readonly IMediator _mediator;
 
-        public EmployeeDesignationHistoryChangedEventHandler(ILogger<EmployeeDesignationHistoryChangedEventHandler> logger, IMediator mediator)
+        public EmployeeDeptHistoryChangedEventHandler(ILogger<EmployeeDeptHistoryChangedEventHandler> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;

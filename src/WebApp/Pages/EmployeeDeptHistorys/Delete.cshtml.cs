@@ -35,7 +35,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return NotFound();
             }
 
-            EmployeeDeptHistory = await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value });
+            EmployeeDeptHistory = await _mediator.Send(new GetEmpDeptHistByIdQuery() { Id = id.Value });
 
             if (EmployeeDeptHistory == null)
             {
@@ -48,7 +48,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
         public async Task<IActionResult> OnPostAsync()
         {
             //DeleteDeptHistoryCommand
-            List<string> errs = await _mediator.Send(new DeleteDesignationHistoryCommand() { Id = EmployeeDeptHistory.Id });
+            List<string> errs = await _mediator.Send(new DeleteDeptHistoryCommand() { Id = EmployeeDeptHistory.Id });
             if (errs.Count == 0)
             {
                 return RedirectToPage("./Index", routeValues: new { usrId = EmployeeDeptHistory.ApplicationUserId });

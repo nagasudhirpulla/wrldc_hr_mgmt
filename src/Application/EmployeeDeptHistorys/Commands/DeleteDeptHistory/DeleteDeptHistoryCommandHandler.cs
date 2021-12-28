@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeeDeptHistorys.Commands.DeleteDeptHistory
 {
-    public class DeleteDesignationHistoryCommandHandler : IRequestHandler<DeleteDesignationHistoryCommand, List<string>>
+    public class DeleteDeptHistoryCommandHandler : IRequestHandler<DeleteDeptHistoryCommand, List<string>>
     {
         private readonly IAppDbContext _context;
 
-        public DeleteDesignationHistoryCommandHandler(IAppDbContext context)
+        public DeleteDeptHistoryCommandHandler(IAppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<string>> Handle(DeleteDesignationHistoryCommand request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(DeleteDeptHistoryCommand request, CancellationToken cancellationToken)
         {
             EmployeeDeptHistory deptHistItem = await _context.EmployeeDeptHistorys.FindAsync(request.Id);
 

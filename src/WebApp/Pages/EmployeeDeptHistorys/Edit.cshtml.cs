@@ -47,7 +47,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return NotFound();
             }
             await InitSelectListItems();
-            EmpDeptHistItem = _mapper.Map<EditDeptHistoryCommand>(await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value }));
+            EmpDeptHistItem = _mapper.Map<EditDeptHistoryCommand>(await _mediator.Send(new GetEmpDeptHistByIdQuery() { Id = id.Value }));
 
             if (EmpDeptHistItem == null)
             {

@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.UpdateUserLatestDept
 {
-    public class UpdateUserLatestDesignationCommandHandler : IRequestHandler<UpdateUserLatestDeptCommand, List<string>>
+    public class UpdateUserLatestDeptCommandHandler : IRequestHandler<UpdateUserLatestDeptCommand, List<string>>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAppDbContext _context;
-        public UpdateUserLatestDesignationCommandHandler(UserManager<ApplicationUser> userManager, IAppDbContext context)
+        public UpdateUserLatestDeptCommandHandler(UserManager<ApplicationUser> userManager, IAppDbContext context)
         {
             _userManager = userManager;
             _context = context;

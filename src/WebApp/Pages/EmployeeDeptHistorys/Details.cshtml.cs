@@ -33,7 +33,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
                 return NotFound();
             }
 
-            EmpDeptHistory = await _mediator.Send(new GetEmpDesignationHistByIdQuery() { Id = id.Value });
+            EmpDeptHistory = await _mediator.Send(new GetEmpDeptHistByIdQuery() { Id = id.Value });
 
             if (EmpDeptHistory == null)
             {

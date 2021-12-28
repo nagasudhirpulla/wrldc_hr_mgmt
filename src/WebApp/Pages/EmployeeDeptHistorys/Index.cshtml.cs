@@ -40,7 +40,7 @@ namespace WebApp.Pages.EmployeeDeptHistorys
             {
                 return Unauthorized();
             }
-            EmpDeptHistory = await _mediator.Send(new GetDesignationHistoryForEmpQuery() { ApplicationUserId = usrId });
+            EmpDeptHistory = await _mediator.Send(new GetDeptHistoryForEmpQuery() { ApplicationUserId = usrId });
             EmployeeId = usrId;
             return Page();
         }

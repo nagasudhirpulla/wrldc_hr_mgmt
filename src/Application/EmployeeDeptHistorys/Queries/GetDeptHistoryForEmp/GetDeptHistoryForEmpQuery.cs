@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp
 {
-    public class GetDesignationHistoryForEmpQuery : IRequest<List<EmployeeDeptHistory>>
+    public class GetDeptHistoryForEmpQuery : IRequest<List<EmployeeDeptHistory>>
     {
         public string ApplicationUserId { get; set; }
-        public class GetDeptHistoryForEmpQueryHandler : IRequestHandler<GetDesignationHistoryForEmpQuery, List<EmployeeDeptHistory>>
+        public class GetDeptHistoryForEmpQueryHandler : IRequestHandler<GetDeptHistoryForEmpQuery, List<EmployeeDeptHistory>>
         {
             private readonly IAppDbContext _context;
 
@@ -23,7 +23,7 @@ namespace Application.EmployeeDeptHistorys.Queries.GetDeptHistoryForEmp
                 _context = context;
             }
 
-            public async Task<List<EmployeeDeptHistory>> Handle(GetDesignationHistoryForEmpQuery request, CancellationToken cancellationToken)
+            public async Task<List<EmployeeDeptHistory>> Handle(GetDeptHistoryForEmpQuery request, CancellationToken cancellationToken)
             {
                 List<EmployeeDeptHistory> res = await _context.EmployeeDeptHistorys
                                                     .Where(e => e.ApplicationUserId == request.ApplicationUserId)
