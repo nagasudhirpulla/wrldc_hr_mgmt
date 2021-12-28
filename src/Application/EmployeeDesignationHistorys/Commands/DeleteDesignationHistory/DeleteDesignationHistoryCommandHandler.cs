@@ -32,7 +32,7 @@ namespace Application.EmployeeDesignationHistorys.Commands.DeleteDesignationHist
             _context.EmployeeDesignationHistorys.Remove(employeeHistItem);
 
             // attach event
-            employeeHistItem.DomainEvents.Add(new EmployeeDeptHistoryChangedEvent(employeeHistItem.ApplicationUserId));
+            employeeHistItem.DomainEvents.Add(new EmployeeDesignationHistoryChangedEvent(employeeHistItem.ApplicationUserId));
             // commit to database
             _ = await _context.SaveChangesAsync(cancellationToken);
 
