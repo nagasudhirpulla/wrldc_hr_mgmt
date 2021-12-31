@@ -2,6 +2,7 @@ using Application;
 using Application.Common;
 using Application.Departments.Commands.SeedDepartments;
 using Application.Designations.Commands.SeedDesignations;
+using Application.Grades.Commands.SeedGrades;
 using Application.Users.Commands.SeedUsers;
 using Infra;
 using MediatR;
@@ -81,6 +82,7 @@ namespace WebApp
             _ = await mediator.Send(new SeedDepartmentsCommand());
             _ = await mediator.Send(new SeedDesignationsCommand());
             _ = await mediator.Send(new SeedUsersCommand());
+            _ = await mediator.Send(new SeedGradesCommand());
         }
     }
 }

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Grades\Queries\" />
+  </ItemGroup>
+
 </Project>

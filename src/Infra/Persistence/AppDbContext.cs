@@ -25,6 +25,7 @@ namespace Infra.Persistence
         public DbSet<Designation> Designations { get; set; }
         public DbSet<EmployeeDeptHistory> EmployeeDeptHistorys { get; set; }
         public DbSet<EmployeeDesignationHistory> EmployeeDesignationHistorys { get; set; }
+        public DbSet<Grade> Grades { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUserService currentUserService, IDomainEventService domainEventService)
             : base(options)

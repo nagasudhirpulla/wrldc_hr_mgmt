@@ -20,6 +20,9 @@ namespace Core.Entities
         public int? DepartmentId { get; set; }
         public Department Department { get; set; }
 
+        public int? GradeId { get; set; }
+        public Grade Grade { get; set; }
+
         public bool IsActive { get; set; } = true;
         public string FatherName { get; set; }
         public DateTime DoB { get; set; }
