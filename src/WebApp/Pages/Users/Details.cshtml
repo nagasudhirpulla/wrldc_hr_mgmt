@@ -5,7 +5,14 @@
 }
 
 <div class="container">
-    <h3>My Details</h3>
+    @if (Model.RequestId == null)
+    {
+        <h3>My Details</h3>
+    }
+    else
+    {
+        <h3>User Details</h3>
+    }
 
     <table class="table table-bordered table-striped">
         <tr>
@@ -49,4 +56,10 @@
             <td>@(Model.CUser.IsActive?"Yes":"No")</td>
         </tr>
     </table>
+    @if (Model.RequestId != null)
+    {
+        <div>
+            <a asp-page="Index">Back to Users List</a>
+        </div>
+    }
 </div>

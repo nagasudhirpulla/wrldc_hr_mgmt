@@ -28,9 +28,11 @@ namespace WebApp.Pages.Users
             _currentUserService = currentUserService;
         }
         public UserDTO CUser { get; set; }
+        public string RequestId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            RequestId = id;
             // check if user is authorized
             string curUsrId = _currentUserService.UserId;
 
