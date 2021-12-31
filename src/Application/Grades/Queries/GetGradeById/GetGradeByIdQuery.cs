@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Departments.Queries.GetDepartmentsById
+namespace Application.Grades.Queries.GetGradeById
 {
-    public class GetDepartmentsByIdQuery : IRequest<Department>
+    public class GetGradeByIdQuery : IRequest<Grade>
     {
         public int Id { get; set; }
     }
 
-    public class GetNotesheetByIdQueryHandler : IRequestHandler<GetDepartmentsByIdQuery, Department>
+    public class GetNotesheetByIdQueryHandler : IRequestHandler<GetGradeByIdQuery, Grade>
     {
         private readonly IAppDbContext _context;
 
@@ -25,9 +25,9 @@ namespace Application.Departments.Queries.GetDepartmentsById
             _context = context;
         }
 
-        async Task<Department> IRequestHandler<GetDepartmentsByIdQuery, Department>.Handle(GetDepartmentsByIdQuery request, CancellationToken cancellationToken)
+        async Task<Grade> IRequestHandler<GetGradeByIdQuery, Grade>.Handle(GetGradeByIdQuery request, CancellationToken cancellationToken)
         {
-            Department res = await _context.Departments.Where(co => co.Id == request.Id)
+            Grade res = await _context.Grades.Where(co => co.Id == request.Id)
                                             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
             return res;
         }

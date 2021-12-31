@@ -24,10 +24,10 @@ namespace WebApp.Pages.Users
     [Authorize(Roles = SecurityConstants.AdminRoleString)]
     public class CreateModel : PageModel
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<CreateModel> _logger;
         private readonly IMediator _mediator;
 
-        public CreateModel(ILogger<IndexModel> logger, IMediator mediator)
+        public CreateModel(ILogger<CreateModel> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;

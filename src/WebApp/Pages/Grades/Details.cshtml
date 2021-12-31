@@ -1,0 +1,43 @@
+﻿@page
+@model WebApp.Pages.Grades.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <h3>Grade Details</h3>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>Name</td>
+            <td>@Model.Grade.Name</td>
+        </tr>
+        <tr>
+            <td>Level</td>
+            <td>@Model.Grade.Level</td>
+        </tr>
+        <tr>
+            <td>PayScale</td>
+            <td>@Model.Grade.PayScale.ToString()</td>
+        </tr>
+        <tr>
+            <td>Created</td>
+            <td>@Model.Grade.Created</td>
+        </tr>
+        <tr>
+            <td>Created By</td>
+            <td>@Model.Grade.CreatedBy</td>
+        </tr>
+        <tr>
+            <td>Last Modified</td>
+            <td>@Model.Grade.LastModified</td>
+        </tr>
+        <tr>
+            <td>Last Modified By</td>
+            <td>@Model.Grade.LastModifiedBy</td>
+        </tr>
+    </table>
+    <div>
+        <a asp-page="Index">Back to Grades List</a>
+    </div>
+</div>

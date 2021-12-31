@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infra.Migrations
 {
-    public partial class appDeptHistory : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,25 @@ namespace Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Grades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
+                    Level = table.Column<int>(type: "INTEGER", nullable: false),
+                    PayScale_LowVal = table.Column<int>(type: "INTEGER", nullable: true),
+                    PayScale_HighVal = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grades", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -87,6 +106,7 @@ namespace Infra.Migrations
                     OfficeId = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
                     DesignationId = table.Column<int>(type: "INTEGER", nullable: true),
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GradeId = table.Column<int>(type: "INTEGER", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     FatherName = table.Column<string>(type: "TEXT", nullable: true),
                     DoB = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -128,6 +148,12 @@ namespace Infra.Migrations
                         name: "FK_AspNetUsers_Designations_DesignationId",
                         column: x => x.DesignationId,
                         principalTable: "Designations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Grades_GradeId",
+                        column: x => x.GradeId,
+                        principalTable: "Grades",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -248,6 +274,37 @@ namespace Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeeDesignationHistorys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    DesignationId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeDesignationHistorys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeDesignationHistorys_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeDesignationHistorys_Designations_DesignationId",
+                        column: x => x.DesignationId,
+                        principalTable: "Designations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -288,6 +345,11 @@ namespace Infra.Migrations
                 name: "IX_AspNetUsers_DesignationId",
                 table: "AspNetUsers",
                 column: "DesignationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GradeId",
+                table: "AspNetUsers",
+                column: "GradeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_OfficeId",
@@ -334,6 +396,28 @@ namespace Infra.Migrations
                 table: "EmployeeDeptHistorys",
                 columns: new[] { "FromDate", "ApplicationUserId", "DepartmentId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeDesignationHistorys_ApplicationUserId",
+                table: "EmployeeDesignationHistorys",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeDesignationHistorys_DesignationId",
+                table: "EmployeeDesignationHistorys",
+                column: "DesignationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeDesignationHistorys_FromDate_ApplicationUserId_DesignationId",
+                table: "EmployeeDesignationHistorys",
+                columns: new[] { "FromDate", "ApplicationUserId", "DesignationId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_Name",
+                table: "Grades",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -357,6 +441,9 @@ namespace Infra.Migrations
                 name: "EmployeeDeptHistorys");
 
             migrationBuilder.DropTable(
+                name: "EmployeeDesignationHistorys");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -367,6 +454,9 @@ namespace Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Designations");
+
+            migrationBuilder.DropTable(
+                name: "Grades");
         }
     }
 }

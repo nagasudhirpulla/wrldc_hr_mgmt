@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211222102230_designationHistory")]
-    partial class designationHistory
+    [Migration("20211231114607_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,6 +65,9 @@ namespace Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Gender")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GradeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
@@ -128,6 +131,8 @@ namespace Infra.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("DesignationId");
+
+                    b.HasIndex("GradeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -293,6 +298,40 @@ namespace Infra.Migrations
                     b.ToTable("EmployeeDesignationHistorys");
                 });
 
+            modelBuilder.Entity("Core.Entities.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Grades");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -435,9 +474,15 @@ namespace Infra.Migrations
                         .WithMany()
                         .HasForeignKey("DesignationId");
 
+                    b.HasOne("Core.Entities.Grade", "Grade")
+                        .WithMany()
+                        .HasForeignKey("GradeId");
+
                     b.Navigation("Department");
 
                     b.Navigation("Designation");
+
+                    b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>
@@ -474,6 +519,30 @@ namespace Infra.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Designation");
+                });
+
+            modelBuilder.Entity("Core.Entities.Grade", b =>
+                {
+                    b.OwnsOne("Core.ValueObjects.PayScale", "PayScale", b1 =>
+                        {
+                            b1.Property<int>("GradeId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("HighVal")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("LowVal")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("GradeId");
+
+                            b1.ToTable("Grades");
+
+                            b1.WithOwner()
+                                .HasForeignKey("GradeId");
+                        });
+
+                    b.Navigation("PayScale");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

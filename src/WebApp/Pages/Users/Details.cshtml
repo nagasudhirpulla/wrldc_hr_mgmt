@@ -1,18 +1,16 @@
 ﻿@page
 @model WebApp.Pages.Users.DetailsModel
 @{
-    ViewData["Title"] = "My Details";
+    string pageTitle = "User Details";
+    if (Model.RequestId == null)
+    {
+        pageTitle = "My Details";
+    }
+    ViewData["Title"] = pageTitle;
 }
 
 <div class="container">
-    @if (Model.RequestId == null)
-    {
-        <h3>My Details</h3>
-    }
-    else
-    {
-        <h3>User Details</h3>
-    }
+    <h3>@pageTitle</h3>
 
     <table class="table table-bordered table-striped">
         <tr>

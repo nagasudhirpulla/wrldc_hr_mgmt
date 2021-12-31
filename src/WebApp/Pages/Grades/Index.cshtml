@@ -1,0 +1,61 @@
+﻿@page
+@model WebApp.Pages.Grades.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <h1>Index</h1>
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].Level)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].PayScale)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grades[0].LastModified)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Grades)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level)
+                    </td>
+                    <td>
+                        @item.PayScale.ToString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastModified)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

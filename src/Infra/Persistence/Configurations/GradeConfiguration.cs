@@ -20,7 +20,13 @@ namespace Infra.Persistence.Configurations
 
             // configure payscale value object
             builder
-            .OwnsOne(b => b.PayScale);
+            .OwnsOne(b => b.PayScale)
+            .Property(p => p.LowVal)
+                .IsRequired();
+            builder
+            .OwnsOne(b => b.PayScale)
+            .Property(p => p.HighVal)
+                .IsRequired();
         }
     }
 }

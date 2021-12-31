@@ -1,0 +1,48 @@
+﻿@page
+@model WebApp.Pages.Grades.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Grade</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NewGrade.Name" class="control-label"></label>
+                <input asp-for="NewGrade.Name" class="form-control" />
+                <span asp-validation-for="NewGrade.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewGrade.Level" class="control-label"></label>
+                <input asp-for="NewGrade.Level" class="form-control" />
+                <span asp-validation-for="NewGrade.Level" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewGrade.PayScaleLow" class="control-label">Pay Scale Low Value</label>
+                <input asp-for="NewGrade.PayScaleLow" class="form-control" />
+                <span asp-validation-for="NewGrade.PayScaleLow" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewGrade.PayScaleHigh" class="control-label">Pay Scale High Value</label>
+                <input asp-for="NewGrade.PayScaleHigh" class="form-control" />
+                <span asp-validation-for="NewGrade.PayScaleHigh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

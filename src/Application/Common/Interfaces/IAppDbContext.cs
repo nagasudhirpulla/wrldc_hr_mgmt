@@ -21,5 +21,6 @@ namespace Application.Common.Interfaces
         DbSet<EmployeeDesignationHistory> EmployeeDesignationHistorys { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         EntityEntry Attach([NotNullAttribute] object entity);
+        EntityEntry Update([NotNullAttribute] object entity);
     }
 }

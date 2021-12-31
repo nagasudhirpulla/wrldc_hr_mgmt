@@ -32,5 +32,10 @@ namespace Core.ValueObjects
             yield return LowVal;
             yield return HighVal;
         }
+
+        public override string ToString()
+        {
+            return $"{String.Format("{0:n0}", LowVal)} - {String.Format("{0:n0}", HighVal)}";
+        }
     }
 }

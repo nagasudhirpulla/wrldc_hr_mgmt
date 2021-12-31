@@ -44,18 +44,18 @@ namespace Application.Users.Commands.SeedUsers
              * **/
             public async Task SeedUsers()
             {
-                int deptId = (await _context.Departments.Where(d => d.Name.ToLower() == "na").FirstAsync()).Id;
-                int desigId = (await _context.Designations.Where(d => d.Name.ToLower() == "na").FirstAsync()).Id;
+                //int deptId = (await _context.Departments.Where(d => d.Name.ToLower() == "na").FirstAsync()).Id;
+                //int desigId = (await _context.Designations.Where(d => d.Name.ToLower() == "na").FirstAsync()).Id;
                 await SeedUser(_identityInit.AdminUserName, _identityInit.AdminEmail,
-                    _identityInit.AdminPassword, SecurityConstants.AdminRoleString, deptId, desigId);
+                    _identityInit.AdminPassword, SecurityConstants.AdminRoleString);
                 await SeedUser(_identityInit.GuestUserName, _identityInit.GuestEmail,
-                    _identityInit.GuestPassword, SecurityConstants.GuestRoleString, deptId, desigId);
+                    _identityInit.GuestPassword, SecurityConstants.GuestRoleString);
             }
 
             /**
              * This method seeds a user
              * **/
-            public async Task SeedUser(string userName, string email, string password, string role, int deptId, int desigId)
+            public async Task SeedUser(string userName, string email, string password, string role)
             {
                 // check if user doesn't exist
                 if ((_userManager.FindByNameAsync(userName).Result) == null)
@@ -65,8 +65,6 @@ namespace Application.Users.Commands.SeedUsers
                     {
                         UserName = userName,
                         Email = email,
-                        DepartmentId = deptId,
-                        DesignationId = desigId
                     };
 
                     // push desired user object to DB
