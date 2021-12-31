@@ -79,7 +79,7 @@ namespace WebApp
         public async Task SeedData(IMediator mediator)
         {
             _ = await mediator.Send(new SeedDepartmentsCommand());
-            _ = await mediator.Send(new SeedGradesCommand());
+            _ = await mediator.Send(new SeedDesignationsCommand());
             _ = await mediator.Send(new SeedUsersCommand());
         }
     }
