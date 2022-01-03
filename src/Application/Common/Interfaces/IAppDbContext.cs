@@ -19,6 +19,7 @@ namespace Application.Common.Interfaces
         DbSet<Designation> Designations { get; set; }
         DbSet<EmployeeDeptHistory> EmployeeDeptHistorys { get; set; }
         DbSet<EmployeeDesignationHistory> EmployeeDesignationHistorys { get; set; }
+        DbSet<EmployeeGradeHistory> EmployeeGradeHistorys { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         EntityEntry Attach([NotNullAttribute] object entity);
         EntityEntry Update([NotNullAttribute] object entity);

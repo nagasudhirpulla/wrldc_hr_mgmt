@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmployeeGradeHistorys\EventHandlers\" />
+    <Folder Include="EmployeeGradeHistorys\Queries\" />
+  </ItemGroup>
+
 </Project>

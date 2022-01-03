@@ -1,0 +1,79 @@
+﻿@page
+@model WebApp.Pages.EmployeeGradeHistorys.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Grades History</h1>
+
+<p>
+    <a asp-page="Create" asp-route-usrId="@Model.EmployeeId">Create New</a>
+</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].ApplicationUser.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].LastModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpGradeHistory[0].LastModified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EmpGradeHistory)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModifiedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-page="/Users/Details" asp-route-id="@Model.EmployeeId">Back to User Details</a>
+</div>
+

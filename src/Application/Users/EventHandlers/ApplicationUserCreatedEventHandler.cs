@@ -42,7 +42,7 @@ namespace Application.Users.EventHandlers
                 _ = await _mediator.Send(NewDeptHistory, cancellationToken);
             }
             // create department history for the user
-            if (notification.DomainEvent.AppUser.DepartmentId.HasValue)
+            if (notification.DomainEvent.AppUser.DesignationId.HasValue)
             {
                 CreateDesignationHistoryCommand NewDesignationHistory = new()
                 {
