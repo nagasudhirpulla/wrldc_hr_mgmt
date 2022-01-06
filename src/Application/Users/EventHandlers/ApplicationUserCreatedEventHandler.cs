@@ -1,6 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.EmployeeDeptHistorys.Commands.CreateDeptHistory;
 using Application.EmployeeDesignationHistorys.Commands.CreateDesignationHistory;
+using Application.EmployeeGradeHistorys.Commands.CreateGradeHistory;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -41,8 +42,8 @@ namespace Application.Users.EventHandlers
                 };
                 _ = await _mediator.Send(NewDeptHistory, cancellationToken);
             }
-            // create department history for the user
-            if (notification.DomainEvent.AppUser.DepartmentId.HasValue)
+            // create Designation history for the user
+            if (notification.DomainEvent.AppUser.DesignationId.HasValue)
             {
                 CreateDesignationHistoryCommand NewDesignationHistory = new()
                 {
@@ -51,6 +52,17 @@ namespace Application.Users.EventHandlers
                     FromDate = notification.DomainEvent.AppUser.DateofJoining
                 };
                 _ = await _mediator.Send(NewDesignationHistory, cancellationToken);
+            }
+            // create Grade history for the user
+            if (notification.DomainEvent.AppUser.GradeId.HasValue)
+            {
+                CreateGradeHistoryCommand NewGradeHistory = new()
+                {
+                    ApplicationUserId = notification.DomainEvent.AppUser.Id,
+                    GradeId = notification.DomainEvent.AppUser.GradeId.Value,
+                    FromDate = notification.DomainEvent.AppUser.DateofJoining
+                };
+                _ = await _mediator.Send(NewGradeHistory, cancellationToken);
             }
         }
     }

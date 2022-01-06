@@ -13,18 +13,9 @@ namespace Infra.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(250);
 
-            builder.Property(b => b.Grade)
-                .IsRequired()
-                .HasMaxLength(250);
-
             // Name is unique
             builder
             .HasIndex(b => b.Name)
-            .IsUnique();
-
-            // grade is unique
-            builder
-            .HasIndex(b => b.Grade)
             .IsUnique();
 
         }

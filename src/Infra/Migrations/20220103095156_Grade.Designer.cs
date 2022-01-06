@@ -3,14 +3,16 @@ using System;
 using Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103095156_Grade")]
+    partial class Grade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,6 +190,11 @@ namespace Infra.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("TEXT");
 
@@ -203,6 +210,9 @@ namespace Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Grade")
+                        .IsUnique();
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -286,45 +296,6 @@ namespace Infra.Migrations
                         .IsUnique();
 
                     b.ToTable("EmployeeDesignationHistorys");
-                });
-
-            modelBuilder.Entity("Core.Entities.EmployeeGradeHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("GradeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("GradeId");
-
-                    b.HasIndex("FromDate", "ApplicationUserId", "GradeId")
-                        .IsUnique();
-
-                    b.ToTable("EmployeeGradeHistorys");
                 });
 
             modelBuilder.Entity("Core.Entities.Grade", b =>
@@ -548,24 +519,6 @@ namespace Infra.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Designation");
-                });
-
-            modelBuilder.Entity("Core.Entities.EmployeeGradeHistory", b =>
-                {
-                    b.HasOne("Core.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Core.Entities.Grade", "Grade")
-                        .WithMany()
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("Core.Entities.Grade", b =>

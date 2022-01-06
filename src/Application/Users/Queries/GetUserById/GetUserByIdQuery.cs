@@ -34,7 +34,9 @@ namespace Application.Users.Queries.GetUserById
                     return null;
                 }
                 ApplicationUser user = await _userManager.Users
-                                        .Include(x => x.Department).Include(x => x.Designation)
+                                        .Include(x => x.Department)
+                                        .Include(x => x.Designation)
+                                        .Include(x => x.Grade)
                                         .SingleAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
                 if (user == null)
                 {

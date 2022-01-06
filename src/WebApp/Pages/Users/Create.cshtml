@@ -61,6 +61,11 @@
                 <select asp-for="NewUser.DepartmentId" class="form-control" asp-items="Model.DeptOptions"></select>
                 <span asp-validation-for="NewUser.DepartmentId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label>Grade</label>
+                <select asp-for="NewUser.GradeId" class="form-control" asp-items="Model.GradeOptions"></select>
+                <span asp-validation-for="NewUser.GradeId" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="NewUser.FatherName"></label>

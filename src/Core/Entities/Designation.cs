@@ -14,8 +14,6 @@ namespace Core.Entities
         public string Name { get; set; }
         [Required]
         public int Level { get; set; }
-        [Required]
-        public string Grade { get; set; }
 
     }
 }

@@ -18,6 +18,7 @@ using Application.Users.Queries.GetRawUserById;
 using Core.Entities;
 using WebApp.Extensions;
 using Application.Designations.Queries.GetDesignations;
+using Application.Grades.Queries.GetGrades;
 
 namespace WebApp.Pages.Users
 {
@@ -89,7 +90,7 @@ namespace WebApp.Pages.Users
             return Page();
         }
 
-        public void InitSelectListItems()
+        public async Task InitSelectListItems()
         {
             URoles = new SelectList(SecurityConstants.GetRoles());
         }
