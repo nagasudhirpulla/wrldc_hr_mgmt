@@ -50,6 +50,54 @@
             <td>@Model.CUser.Dob</td>
         </tr>
         <tr>
+            <td>Grade</td>
+            <td>@Model.CUser.Grade | <a asp-page="/EmployeeGradeHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View Grade History</a></td>
+        </tr>
+        <tr>
+            <td>Father's Name</td>
+            <td>@Model.CUser.FatherName</td>
+        </tr>
+        <tr>
+            <td>Date Of Joining</td>
+            <td>@Model.CUser.DateofJoining</td>
+        </tr>
+        <tr>
+            <td>Date Of Gender</td>
+            <td>@Model.CUser.Gender</td>
+        </tr>
+        <tr>
+            <td>Ethnic Origin</td>
+            <td>@Model.CUser.EthnicOrigin</td>
+        </tr>
+        <tr>
+            <td>Domicile State</td>
+            <td>@Model.CUser.DomicileState</td>
+        </tr>
+        <tr>
+            <td>Religion</td>
+            <td>@Model.CUser.Religion</td>
+        </tr>
+        <tr>
+            <td>Specially Abled</td>
+            <td>@Model.CUser.SpeciallyAbled</td>
+        </tr>
+        <tr>
+            <td>Aadhar</td>
+            <td>@Model.CUser.Aadhar</td>
+        </tr>
+        <tr>
+            <td>PAN</td>
+            <td>@Model.CUser.PAN</td>
+        </tr>
+        <tr>
+            <td>UAN</td>
+            <td>@Model.CUser.UAN</td>
+        </tr>
+        <tr>
+            <td>PRAN</td>
+            <td>@Model.CUser.PRAN</td>
+        </tr>
+        <tr>
             <td>Active?</td>
             <td>@(Model.CUser.IsActive?"Yes":"No")</td>
         </tr>

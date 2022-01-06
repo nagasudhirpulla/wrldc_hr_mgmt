@@ -29,7 +29,7 @@ namespace Application.EmployeeGradeHistorys.EventHandlers
 
             _logger.LogInformation("Domain Event: {DomainEvent}", domainEvent.GetType().Name);
 
-            // update user's latest department data
+            // update user's latest grade data
             _ = await _mediator.Send(new UpdateUserLatestGradeCommand() { ApplicationUserId = domainEvent.ApplicationUserId }, cancellationToken);
         }
     }

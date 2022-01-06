@@ -23,29 +23,31 @@
                         <th>Department</th>
                         <th>IsActive?</th>
                         <th>Two Factor?</th>
+                        <th>Grade</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model.Users)
                     {
-                        <tr>
-                            <td>@user.Username</td>
-                            <td>@user.DisplayName</td>
-                            <td>@user.UserRole</td>
-                            <td>@user.Email</td>
-                            <td>@user.PhoneNumber</td>
-                            <td>@user.OfficeId</td>
-                            <td>@user.Designation</td>
-                            <td>@user.Department</td>
-                            <td>@Html.DisplayFor(modelItem => user.IsActive)</td>
-                            <td>@Html.DisplayFor(modelItem => user.TwoFactorEnabled)</td>
-                            <td>
-                                <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
-                                <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
-                                <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@user.Username</td>
+                        <td>@user.DisplayName</td>
+                        <td>@user.UserRole</td>
+                        <td>@user.Email</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>@user.OfficeId</td>
+                        <td>@user.Designation</td>
+                        <td>@user.Department</td>
+                        <td>@Html.DisplayFor(modelItem => user.IsActive)</td>
+                        <td>@Html.DisplayFor(modelItem => user.TwoFactorEnabled)</td>
+                        <td>@user.Grade</td>
+                        <td>
+                            <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
+                            <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
+                            <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
+                        </td>
+                    </tr>
                     }
 
                 </tbody>
@@ -61,6 +63,7 @@
                         <th>Department</th>
                         <th>IsActive?</th>
                         <th>Two Factor?</th>
+                        <th>Grade</th>
                         <th>Actions</th>
                     </tr>
                 </tfoot>

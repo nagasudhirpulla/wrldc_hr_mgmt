@@ -33,7 +33,9 @@ namespace Application.Users.Queries.GetAppUsers
                 };
                 // get the list of users
                 List<ApplicationUser> users = await _userManager.Users
-                                                .Include(u => u.Designation).Include(u => u.Department)
+                                                .Include(u => u.Designation)
+                                                .Include(u => u.Department)
+                                                .Include(u => u.Grade)
                                                 .OrderBy(u => u.UserName)
                                                 .ToListAsync(cancellationToken: cancellationToken);
                 foreach (ApplicationUser user in users)

@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="EmployeeGradeHistorys\EventHandlers\" />
-    <Folder Include="EmployeeGradeHistorys\Queries\" />
   </ItemGroup>
 
 </Project>

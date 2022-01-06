@@ -8,17 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using static Application.Common.Mappings.MappingProfile;
 
-namespace Application.EmployeeDesignationHistorys.Commands.EditDesignationHistory
+namespace Application.EmployeeGradeHistorys.Commands.CreateGradeHistory
 {
-    public class EditDesignationHistoryCommand : IRequest<List<string>>, IMapFrom<EmployeeDesignationHistory>
+   public  class CreateGradeHistoryCommand :IRequest<List<string>>, IMapFrom<EmployeeGradeHistory>
     {
-        public int Id { get; set; }
         public string ApplicationUserId { get; set; }
+        public int GradeId { get; set; }
         public DateTime FromDate { get; set; }
-        public int DesignationId { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<EmployeeDesignationHistory, EditDesignationHistoryCommand>();
+            profile.CreateMap<EmployeeGradeHistory, CreateGradeHistoryCommand>()
+                .ReverseMap();
         }
     }
 }

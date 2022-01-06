@@ -15,54 +15,54 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeDesignationHistorys.Commands.EditDesignationHistory
+namespace Application.EmployeeGradeHistorys.Commands.EditGradeHistory
 {
-    public class EditDesignationHistoryCommandHandler : IRequestHandler<EditDesignationHistoryCommand, List<string>>
+    public class EditGradeHistoryCommandHandler : IRequestHandler<EditGradeHistoryCommand, List<string>>
     {
-        private readonly ILogger<EditDesignationHistoryCommandHandler> _logger;
+        private readonly ILogger<EditGradeHistoryCommandHandler> _logger;
         private readonly IAppDbContext _context;
 
-        public EditDesignationHistoryCommandHandler(ILogger<EditDesignationHistoryCommandHandler> logger, IAppDbContext context)
+        public EditGradeHistoryCommandHandler(ILogger<EditGradeHistoryCommandHandler> logger, IAppDbContext context)
         {
             _logger = logger;
             _context = context;
         }
 
-        public async Task<List<string>> Handle(EditDesignationHistoryCommand request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(EditGradeHistoryCommand request, CancellationToken cancellationToken)
         {
-            EmployeeDesignationHistory designationHistItem = await _context.EmployeeDesignationHistorys
+            EmployeeGradeHistory gradeHistItem = await _context.EmployeeGradeHistorys
                                                 .Where(deptHist => deptHist.Id == request.Id)
                                                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (designationHistItem == null)
+            if (gradeHistItem == null)
             {
-                string errorMsg = $"Employee Designation History Id {request.Id} not present for editing";
+                string errorMsg = $"Employee Grade History Id {request.Id} not present for editing";
                 return new List<string>() { errorMsg };
             }
 
             // check if editing is required
             bool isEditRequired = false;
-            if (designationHistItem.DesignationId != request.DesignationId || designationHistItem.FromDate != request.FromDate)
+            if (gradeHistItem.GradeId != request.GradeId || gradeHistItem.FromDate != request.FromDate)
             {
                 isEditRequired = true;
             }
             if (isEditRequired)
             {
-                designationHistItem.FromDate = request.FromDate;
-                designationHistItem.DesignationId = request.DesignationId;
+                gradeHistItem.FromDate = request.FromDate;
+                gradeHistItem.GradeId = request.GradeId;
 
                 try
                 {
                     // attach event
-                    designationHistItem.DomainEvents.Add(new EmployeeDesignationHistoryChangedEvent(designationHistItem.ApplicationUserId));
+                    gradeHistItem.DomainEvents.Add(new EmployeeGradeHistoryChangedEvent(gradeHistItem.ApplicationUserId));
                     // commit to database
                     await _context.SaveChangesAsync(cancellationToken);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.EmployeeDesignationHistorys.Any(e => e.Id == request.Id))
+                    if (!_context.EmployeeGradeHistorys.Any(e => e.Id == request.Id))
                     {
-                        return new List<string>() { $"Employee Designation History Id {request.Id} not present for editing" };
+                        return new List<string>() { $"Employee Grade History Id {request.Id} not present for editing" };
                     }
                     else
                     {
