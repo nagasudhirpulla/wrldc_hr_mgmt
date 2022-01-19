@@ -36,6 +36,8 @@ namespace Core.Entities
         public string PAN { get; set; }
         public string UAN { get; set; }
         public string PRAN { get; set; }
+        public string BossUserId { get; set; }
+        public ApplicationUser BossUser { get; set; }
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }

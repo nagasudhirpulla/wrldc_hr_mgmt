@@ -24,6 +24,7 @@ namespace Infra.Persistence
         public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<EmployeeDeptHistory> EmployeeDeptHistorys { get; set; }
+        public DbSet<EmployeeBossHistory> EmployeeBossHistorys { get; set; }
         public DbSet<EmployeeDesignationHistory> EmployeeDesignationHistorys { get; set; }
         public DbSet<EmployeeGradeHistory> EmployeeGradeHistorys { get; set; }
         public DbSet<Grade> Grades { get; set; }

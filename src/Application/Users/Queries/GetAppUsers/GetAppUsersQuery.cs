@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Entities;
+using Application.Users.Queries.GetBossQueries;
 
 namespace Application.Users.Queries.GetAppUsers
 {
@@ -17,6 +18,7 @@ namespace Application.Users.Queries.GetAppUsers
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly IdentityInit _identityInit;
             private readonly IMapper _mapper;
+            private object _mediator;
 
             public GetAppUsersQueryHandler(UserManager<ApplicationUser> userManager, IdentityInit identityInit, IMapper mapper)
             {
@@ -36,6 +38,7 @@ namespace Application.Users.Queries.GetAppUsers
                                                 .Include(u => u.Designation)
                                                 .Include(u => u.Department)
                                                 .Include(u => u.Grade)
+                                                .Include(u => u.BossUser)
                                                 .OrderBy(u => u.UserName)
                                                 .ToListAsync(cancellationToken: cancellationToken);
                 foreach (ApplicationUser user in users)
@@ -54,6 +57,7 @@ namespace Application.Users.Queries.GetAppUsers
                         }
                         UserDTO uDTO = _mapper.Map<UserDTO>(user);
                         uDTO.UserRole = userRole;
+                        //uDTO.BossUser = await _mediator.Send(new GetCurrentBossNameQuery() { Id = user.BossUserId });
                         vm.Users.Add(uDTO);
                     }
 

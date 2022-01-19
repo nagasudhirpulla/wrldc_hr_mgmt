@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220107043330_MigrateToPostgres")]
-    partial class MigrateToPostgres
+    [Migration("20220117131213_BossUserId")]
+    partial class BossUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,9 @@ namespace Infra.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
+
+                    b.Property<string>("BossUserId")
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -215,6 +218,49 @@ namespace Infra.Migrations
                         .IsUnique();
 
                     b.ToTable("Designations");
+                });
+
+            modelBuilder.Entity("Core.Entities.EmployeeBossHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BossUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BossUserId");
+
+                    b.HasIndex("FromDate", "ApplicationUserId", "BossUserId")
+                        .IsUnique();
+
+                    b.ToTable("EmployeeBossHistorys");
                 });
 
             modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>
@@ -525,6 +571,22 @@ namespace Infra.Migrations
                     b.Navigation("Designation");
 
                     b.Navigation("Grade");
+                });
+
+            modelBuilder.Entity("Core.Entities.EmployeeBossHistory", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Core.Entities.ApplicationUser", "BossUser")
+                        .WithMany()
+                        .HasForeignKey("BossUserId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("BossUser");
                 });
 
             modelBuilder.Entity("Core.Entities.EmployeeDeptHistory", b =>

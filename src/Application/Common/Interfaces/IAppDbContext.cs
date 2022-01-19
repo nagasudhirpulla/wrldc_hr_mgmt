@@ -18,6 +18,7 @@ namespace Application.Common.Interfaces
         DbSet<Grade> Grades { get; set; }
         DbSet<Designation> Designations { get; set; }
         DbSet<EmployeeDeptHistory> EmployeeDeptHistorys { get; set; }
+        DbSet<EmployeeBossHistory> EmployeeBossHistorys { get; set; }
         DbSet<EmployeeDesignationHistory> EmployeeDesignationHistorys { get; set; }
         DbSet<EmployeeGradeHistory> EmployeeGradeHistorys { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

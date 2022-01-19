@@ -19,6 +19,7 @@ using WebApp.Extensions;
 using Application.Designations.Queries.GetDesignations;
 using Core.Enums;
 using Application.Grades.Queries.GetGrades;
+using Application.Users.Queries.GetBossQueries;
 
 namespace WebApp.Pages.Users
 {
@@ -38,6 +39,7 @@ namespace WebApp.Pages.Users
         public SelectList DeptOptions { get; set; }
         public SelectList DesigOptions { get; set; }
         public SelectList GradeOptions { get; set; }
+        public SelectList BossOptions { get; set; }
         public SelectList URoles { get; set; }
 
         [BindProperty]
@@ -79,6 +81,7 @@ namespace WebApp.Pages.Users
             DeptOptions = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
             DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             GradeOptions = new SelectList(await _mediator.Send(new GetGradesQuery()), "Id", "Name");
+            BossOptions = new SelectList(await _mediator.Send(new GetEmployeeBossQuery()), "Id", "DisplayName");
             URoles = new SelectList(SecurityConstants.GetRoles());
         }
     }

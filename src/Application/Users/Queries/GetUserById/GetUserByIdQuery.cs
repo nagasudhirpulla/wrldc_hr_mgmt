@@ -37,6 +37,7 @@ namespace Application.Users.Queries.GetUserById
                                         .Include(x => x.Department)
                                         .Include(x => x.Designation)
                                         .Include(x => x.Grade)
+                                        .Include(x => x.BossUser)
                                         .SingleAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
                 if (user == null)
                 {

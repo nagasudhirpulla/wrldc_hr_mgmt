@@ -54,6 +54,10 @@
             <td>@Model.CUser.Grade | <a asp-page="/EmployeeGradeHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View Grade History</a></td>
         </tr>
         <tr>
+            <td>Reporting Officer</td>
+            <td>@Model.CUser.BossUser | <a asp-page="/EmployeeBossHistorys/Index" asp-route-usrId="@Model.CUser.UserId">View Reporting Officer History</a></td>
+        </tr>
+        <tr>
             <td>Father's Name</td>
             <td>@Model.CUser.FatherName</td>
         </tr>

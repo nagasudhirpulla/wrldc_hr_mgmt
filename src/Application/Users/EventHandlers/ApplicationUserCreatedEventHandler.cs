@@ -2,6 +2,7 @@
 using Application.EmployeeDeptHistorys.Commands.CreateDeptHistory;
 using Application.EmployeeDesignationHistorys.Commands.CreateDesignationHistory;
 using Application.EmployeeGradeHistorys.Commands.CreateGradeHistory;
+using Application.EmployeeBossHistorys.Commands.CreateBossHistory;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -63,6 +64,18 @@ namespace Application.Users.EventHandlers
                     FromDate = notification.DomainEvent.AppUser.DateofJoining
                 };
                 _ = await _mediator.Send(NewGradeHistory, cancellationToken);
+            }
+            // create Boss history for the user
+            if (notification.DomainEvent.AppUser.BossUserId.Length>0)
+            {
+                CreateBossHistoryCommand NewBossHistory = new()
+                {
+                    ApplicationUserId = notification.DomainEvent.AppUser.Id,
+                    BossUserId = notification.DomainEvent.AppUser.BossUserId,
+                    FromDate = notification.DomainEvent.AppUser.DateofJoining,
+                    ToDate = notification.DomainEvent.AppUser.DateofJoining
+                };
+                _ = await _mediator.Send(NewBossHistory, cancellationToken);
             }
         }
     }

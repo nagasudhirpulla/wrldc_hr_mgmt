@@ -13,6 +13,7 @@ namespace Application.Users.Queries.GetAppUsers
         public string Username { get; set; }
         public string DisplayName { get; set; }
         public string Department { get; set; }
+        public string BossUser { get; set; }
         public string Email { get; set; }
         public string UserRole { get; set; }
         public string OfficeId { get; set; }
@@ -33,11 +34,11 @@ namespace Application.Users.Queries.GetAppUsers
         public string PAN { get; set; }
         public string UAN { get; set; }
         public string PRAN { get; set; }
-
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ApplicationUser, UserDTO>()
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.Id))
+                .ForMember(d => d.BossUser, opt => opt.MapFrom(s => s.BossUser.UserName))
                 .ForMember(d => d.Username, opt => opt.MapFrom(s => s.UserName))
                 .ForMember(d => d.Department, opt => opt.MapFrom(s => s.Department.Name))
                 .ForMember(d => d.Designation, opt => opt.MapFrom(s => s.Designation.Name))

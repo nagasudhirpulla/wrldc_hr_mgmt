@@ -24,6 +24,7 @@ namespace Application.Users.Commands.CreateUser
         public int OfficeId { get; set; }
         public int DesignationId { get; set; }
         public int DepartmentId { get; set; }
+        public string BossUserId { get; set; }
         public int GradeId { get; set; }
         public bool IsActive { get; set; } = true;
         public string FatherName { get; set; }

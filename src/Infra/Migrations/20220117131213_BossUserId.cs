@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infra.Migrations
 {
-    public partial class MigrateToPostgres : Migration
+    public partial class BossUserId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -121,6 +121,7 @@ namespace Infra.Migrations
                     PAN = table.Column<string>(type: "text", nullable: true),
                     UAN = table.Column<string>(type: "text", nullable: true),
                     PRAN = table.Column<string>(type: "text", nullable: true),
+                    BossUserId = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -242,6 +243,38 @@ namespace Infra.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeBossHistorys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ApplicationUserId = table.Column<string>(type: "text", nullable: true),
+                    BossUserId = table.Column<string>(type: "text", nullable: true),
+                    FromDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeBossHistorys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeBossHistorys_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeBossHistorys_AspNetUsers_BossUserId",
+                        column: x => x.BossUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -408,6 +441,22 @@ namespace Infra.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeBossHistorys_ApplicationUserId",
+                table: "EmployeeBossHistorys",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeBossHistorys_BossUserId",
+                table: "EmployeeBossHistorys",
+                column: "BossUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeBossHistorys_FromDate_ApplicationUserId_BossUserId",
+                table: "EmployeeBossHistorys",
+                columns: new[] { "FromDate", "ApplicationUserId", "BossUserId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeDeptHistorys_ApplicationUserId",
                 table: "EmployeeDeptHistorys",
                 column: "ApplicationUserId");
@@ -478,6 +527,9 @@ namespace Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeBossHistorys");
 
             migrationBuilder.DropTable(
                 name: "EmployeeDeptHistorys");
