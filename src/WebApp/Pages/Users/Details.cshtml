@@ -109,18 +109,18 @@
     </table>
 
     @if (Model.RequestId != null && User.IsInRole(SecurityConstants.AdminRoleString))
-        {
-            // admin user is seeing other user details, so show extra buttons
-            <div>
-                <a asp-page="./Subordinates" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-primary">View Subordinates</a>
-                <a asp-page="./Edit" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-warning">Edit User</a>
-                <a asp-page="./Delete" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-danger">Delete User</a>
-            </div>
-            <br />
-            <div>
-                <a asp-page="Index">Back to Users List</a>
-            </div>
-        }
+    {
+        // admin user is seeing other user details, so show extra buttons
+        <div>
+            <a asp-page="./Subordinates" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-primary">View Subordinates</a>
+            <a asp-page="./Edit" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-warning">Edit User</a>
+            <a asp-page="./Delete" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-danger">Delete User</a>
+        </div>
+        <br />
+        <div>
+            <a asp-page="Index">Back to Users List</a>
+        </div>
+    }
     else
     {
         <a asp-page="./Subordinates">View Subordinates</a>
