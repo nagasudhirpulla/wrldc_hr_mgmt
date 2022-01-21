@@ -4,9 +4,6 @@ using Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using static Application.Common.Mappings.MappingProfile;
 
 namespace Application.Users.Commands.CreateUser

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Core.Entities;
-using Infra.Persistence;
 using Application.EmployeeBossHistorys.Commands.CreateBossHistory;
 using MediatR;
-using Application.Users.Queries.GetBossQueries;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Application.Users;
+using Application.Users.Queries.GetEmployeeBoss;
 
 namespace WebApp.Pages.EmployeeBossHistorys
 {

@@ -6,10 +6,6 @@ using Application.EmployeeBossHistorys.Commands.CreateBossHistory;
 using Core.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -66,7 +62,7 @@ namespace Application.Users.EventHandlers
                 _ = await _mediator.Send(NewGradeHistory, cancellationToken);
             }
             // create Boss history for the user
-            if (notification.DomainEvent.AppUser.BossUserId.Length>0)
+            if (notification.DomainEvent.AppUser.BossUserId != null)
             {
                 CreateBossHistoryCommand NewBossHistory = new()
                 {

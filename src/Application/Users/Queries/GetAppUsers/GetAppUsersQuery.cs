@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Entities;
-using Application.Users.Queries.GetBossQueries;
 
 namespace Application.Users.Queries.GetAppUsers
 {
@@ -18,7 +17,6 @@ namespace Application.Users.Queries.GetAppUsers
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly IdentityInit _identityInit;
             private readonly IMapper _mapper;
-            private object _mediator;
 
             public GetAppUsersQueryHandler(UserManager<ApplicationUser> userManager, IdentityInit identityInit, IMapper mapper)
             {

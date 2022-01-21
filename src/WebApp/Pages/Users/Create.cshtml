@@ -89,7 +89,7 @@
             </div>
             <div class="form-group">
                 <label>Gender</label>
-                <select asp-for="NewUser.Gender" class="form-control" asp-items="@(new SelectList(GenderEnum.List, "Value", "Name"))"></select>
+                <select asp-for="NewUser.Gender" class="form-control" asp-items="@(new SelectList(GenderEnum.List, "Value", "Name", GenderEnum.Male.Value))"></select>
                 <span asp-validation-for="NewUser.Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -99,7 +99,7 @@
             </div>
             <div class="form-group">
                 <label>Ethnic Origin</label>
-                <select asp-for="NewUser.EthnicOrigin" class="form-control" asp-items="@(new SelectList(EthnicOriginEnum.List, "Value", "Name"))"></select>
+                <select asp-for="NewUser.EthnicOrigin" class="form-control" asp-items="@(new SelectList(EthnicOriginEnum.List, "Value", "Name", EthnicOriginEnum.General.Value))"></select>
                 <span asp-validation-for="NewUser.EthnicOrigin" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -128,11 +128,12 @@
                 <span asp-validation-for="NewUser.PRAN" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="NewUser.IsActive"></label>
                 <input asp-for="NewUser.IsActive" class="form-control" />
                 <span asp-validation-for="NewUser.IsActive" class="text-danger"></span>
-            </div>
+            </div>*@
+
             <div class="form-group">
                 <label asp-for="NewUser.IsTwoFactorEnabled"></label>
                 <input asp-for="NewUser.IsTwoFactorEnabled" class="form-control" />

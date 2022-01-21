@@ -3,9 +3,6 @@ using Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities
 {
@@ -23,6 +20,9 @@ namespace Core.Entities
         public int? GradeId { get; set; }
         public Grade Grade { get; set; }
 
+        public string BossUserId { get; set; }
+        public ApplicationUser BossUser { get; set; }
+
         public bool IsActive { get; set; } = true;
         public string FatherName { get; set; }
         public DateTime DoB { get; set; }
@@ -36,8 +36,7 @@ namespace Core.Entities
         public string PAN { get; set; }
         public string UAN { get; set; }
         public string PRAN { get; set; }
-        public string BossUserId { get; set; }
-        public ApplicationUser BossUser { get; set; }
+
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }

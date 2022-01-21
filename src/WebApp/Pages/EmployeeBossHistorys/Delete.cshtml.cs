@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Core.Entities;
-using Infra.Persistence;
 using MediatR;
 using Application.EmployeeBossHistorys.Queries.GetEmpBossHistById;
 using Application.EmployeeBossHistorys.Commands.DeleteBossHistory;

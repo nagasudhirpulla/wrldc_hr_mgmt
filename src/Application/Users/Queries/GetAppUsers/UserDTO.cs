@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using System;
-using System.Text;
 using Core.Entities;
 using static Application.Common.Mappings.MappingProfile;
 using Core.Enums;
@@ -38,7 +37,7 @@ namespace Application.Users.Queries.GetAppUsers
         {
             profile.CreateMap<ApplicationUser, UserDTO>()
                 .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(d => d.BossUser, opt => opt.MapFrom(s => s.BossUser.UserName))
+                .ForMember(d => d.BossUser, opt => opt.MapFrom(s => s.BossUser.DisplayName))
                 .ForMember(d => d.Username, opt => opt.MapFrom(s => s.UserName))
                 .ForMember(d => d.Department, opt => opt.MapFrom(s => s.Department.Name))
                 .ForMember(d => d.Designation, opt => opt.MapFrom(s => s.Designation.Name))

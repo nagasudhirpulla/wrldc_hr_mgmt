@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-
-namespace Infra.Services.Email
+﻿namespace Infra.Services.Email
 {
     public class EmailConfiguration
     {

@@ -1,14 +1,10 @@
 ﻿using Application.Common.Interfaces;
-using AutoMapper;
 using Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,7 +42,7 @@ namespace Application.Users.Commands.UpdateUserLatestBoss
                         .OrderByDescending(x => x.FromDate)
                         .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            string? latestBossId = null;
+            string latestBossId = null;
 
             if (usrLatestBossInfo != null)
             {

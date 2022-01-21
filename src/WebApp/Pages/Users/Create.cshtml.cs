@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
@@ -8,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -17,9 +14,8 @@ using Application.Users;
 using Application.Users.Commands.CreateUser;
 using WebApp.Extensions;
 using Application.Designations.Queries.GetDesignations;
-using Core.Enums;
 using Application.Grades.Queries.GetGrades;
-using Application.Users.Queries.GetBossQueries;
+using Application.Users.Queries.GetEmployeeBoss;
 
 namespace WebApp.Pages.Users
 {
@@ -82,7 +78,7 @@ namespace WebApp.Pages.Users
             DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             GradeOptions = new SelectList(await _mediator.Send(new GetGradesQuery()), "Id", "Name");
             BossOptions = new SelectList(await _mediator.Send(new GetEmployeeBossQuery()), "Id", "DisplayName");
-            URoles = new SelectList(SecurityConstants.GetRoles());
+            URoles = new SelectList(SecurityConstants.GetRoles(), SecurityConstants.EmployeeRoleString);
         }
     }
 }

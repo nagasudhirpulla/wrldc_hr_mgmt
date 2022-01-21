@@ -1,13 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
 using Core.Entities;
 using Microsoft.Extensions.Logging;
 
@@ -20,15 +14,13 @@ namespace Application.Users.Commands.SeedUsers
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly RoleManager<IdentityRole> _roleManager;
             private readonly IdentityInit _identityInit;
-            private readonly IAppDbContext _context;
             private readonly ILogger<SeedUsersCommandHandler> _logger;
 
-            public SeedUsersCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IdentityInit identityInit, IAppDbContext context, ILogger<SeedUsersCommandHandler> logger)
+            public SeedUsersCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IdentityInit identityInit, ILogger<SeedUsersCommandHandler> logger)
             {
                 _userManager = userManager;
                 _roleManager = roleManager;
                 _identityInit = identityInit;
-                _context = context;
                 _logger = logger;
             }
 

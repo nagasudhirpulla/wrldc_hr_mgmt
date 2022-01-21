@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,15 +13,13 @@ namespace Application.Users.Commands.CreateUser
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, IdentityResult>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger<CreateUserCommandHandler> _logger;
         private readonly IMapper _mapper;
         private readonly IAppDbContext _context;
 
-        public CreateUserCommandHandler(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ILogger<CreateUserCommandHandler> logger, IMapper mapper, IAppDbContext context)
+        public CreateUserCommandHandler(UserManager<ApplicationUser> userManager, ILogger<CreateUserCommandHandler> logger, IMapper mapper, IAppDbContext context)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
             _logger = logger;
             _mapper = mapper;
             _context = context;
@@ -31,10 +28,13 @@ namespace Application.Users.Commands.CreateUser
         public async Task<IdentityResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(request);
+            
+            // keep the user as active while creation
+            user.IsActive = true;
 
             // create domain event about user creation
             user.DomainEvents.Add(new ApplicationUserCreatedEvent(user));
-            
+
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
@@ -73,8 +73,8 @@ namespace Application.Users.Commands.CreateUser
                 {
                     await _emailSender.SendEmailAsync(
                     user.Email,
-                    "Please confirm your email for WRLDC Shift Roster web app",
-                    $"Please confirm your account of WRLDC Shift Roster web app by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>");
+                    "Please confirm your email for WRLDC HR Management web app",
+                    $"Please confirm your account of WRLDC HR Management web app by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>");
                     Console.WriteLine($"Email address Confirmation mail sent to ${user.UserName}");
                 }
                 catch (Exception ex)

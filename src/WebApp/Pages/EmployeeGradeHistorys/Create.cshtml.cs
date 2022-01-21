@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Core.Entities;
-using Infra.Persistence;
 using MediatR;
 using Application.Grades.Queries.GetGrades;
 using FluentValidation.Results;

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infra.Services.Email
@@ -20,7 +18,7 @@ namespace Infra.Services.Email
         {
             Console.WriteLine("Sending mail...");
 
-            MailMessage message = new MailMessage
+            MailMessage message = new()
             {
                 From = new MailAddress(_emailConfig.MailAddress),
                 Subject = subject,

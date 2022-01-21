@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Application.Common;
-using Application.Users;
+using Application.Common.Interfaces;
 using Application.Users.Queries.GetAppUsers;
 using Application.Users.Queries.GetUserById;
-using Core.Entities;
 using Application.Users.Queries.IsUsrSelfOrAdmin;
 
 namespace WebApp.Pages.Users

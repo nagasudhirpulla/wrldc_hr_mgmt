@@ -1,17 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Interfaces;
 using Core.Common;
 using Core.Entities;
-using Infra.Persistence.Configurations;
 using SmartEnum.EFCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Core.Entities;
-using Infra.Persistence;
 using MediatR;
 using Application.EmployeeDesignationHistorys.Queries.GetDesignationHistoryForEmp;
-using Application.Users;
-using Microsoft.AspNetCore.Authorization;
-using Application.Common;
-using Microsoft.AspNetCore.Identity;
 using Application.Users.Queries.IsUsrSelfOrAdmin;
 
 namespace WebApp.Pages.EmployeeDesignationHistorys

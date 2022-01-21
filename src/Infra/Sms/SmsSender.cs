@@ -1,8 +1,5 @@
 ﻿using Core.Sms;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infra.Services.Sms
@@ -22,7 +19,7 @@ namespace Infra.Services.Sms
             // https://www.smscountry.com/Developers.aspx?code=httpjava&sft=1
             //Console.WriteLine("Sending SMS...");
 
-            SMSCAPI obj = new SMSCAPI();
+            SMSCAPI obj = new();
             string strPostResponse;
             strPostResponse = obj.SendSMS(_smsConfig.Username, _smsConfig.Password, number, message);
             //Console.WriteLine("Server Response " + strPostResponse);

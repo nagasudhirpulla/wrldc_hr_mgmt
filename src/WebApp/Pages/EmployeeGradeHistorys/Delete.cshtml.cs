@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Core.Entities;
-using Infra.Persistence;
 using MediatR;
 using Application.EmployeeGradeHistorys.Queries.GetEmpGradeHistById;
 using Application.EmployeeGradeHistorys.Commands.DeleteGradeHistory;
 using Application.Users;
 using Microsoft.AspNetCore.Authorization;
-using WebApp.Extensions;
-using Application.Common;
-using Application.Users.Queries.GetAppUsers;
-using Application.Users.Queries.GetUserById;
+using Application.Common.Interfaces;
 
 namespace WebApp.Pages.EmployeeGradeHistorys
 {
@@ -23,12 +16,10 @@ namespace WebApp.Pages.EmployeeGradeHistorys
     public class DeleteModel : PageModel
     {
         private readonly IMediator _mediator;
-        private readonly ICurrentUserService _currentUserService;
 
-        public DeleteModel(IMediator mediator, ICurrentUserService currentUserService)
+        public DeleteModel(IMediator mediator)
         {
             _mediator = mediator;
-            _currentUserService = currentUserService;
         }
 
         [BindProperty]
@@ -53,7 +44,6 @@ namespace WebApp.Pages.EmployeeGradeHistorys
         public async Task<IActionResult> OnPostAsync()
         {
 
-            //DeleteDeptHistoryCommand
             List<string> errs = await _mediator.Send(new DeleteGradeHistoryCommand() { Id = EmployeeGradeHistory.Id });
             if (errs.Count == 0)
             {

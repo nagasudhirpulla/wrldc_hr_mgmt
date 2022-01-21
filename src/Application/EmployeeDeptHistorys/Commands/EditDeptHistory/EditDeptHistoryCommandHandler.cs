@@ -1,17 +1,11 @@
-﻿using Application.Common;
-using Application.Common.Interfaces;
-using Application.Users;
-using AutoMapper;
+﻿using Application.Common.Interfaces;
 using Core.Entities;
 using Core.Events;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,9 +1,6 @@
 ﻿using Core.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities
 {
@@ -11,10 +8,13 @@ namespace Core.Entities
     {
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
         public string BossUserId { get; set; }
         public ApplicationUser BossUser { get; set; }
+
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }

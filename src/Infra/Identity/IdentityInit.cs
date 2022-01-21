@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infra.Identity
+﻿namespace Infra.Identity
 {
     public class IdentityInit
     {

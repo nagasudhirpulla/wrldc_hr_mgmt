@@ -108,6 +108,10 @@
     </table>
     @if (Model.RequestId != null)
     {
+        // admin user is seeing other user details, so show extra buttons and list
+        <a asp-page="./Edit" asp-route-id="@Model.RequestId" class="btn btn-sm btn-warning">Edit User</a>
+        <a asp-page="./Delete" asp-route-id="@Model.RequestId" class="btn btn-sm btn-danger">Delete User</a>
+        <br />
         <div>
             <a asp-page="Index">Back to Users List</a>
         </div>

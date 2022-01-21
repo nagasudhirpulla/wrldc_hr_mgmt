@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -11,14 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Application.Departments.Queries.GetDepartments;
 using Application.Users;
 using Application.Users.Commands.EditUser;
 using Application.Users.Queries.GetRawUserById;
 using Core.Entities;
 using WebApp.Extensions;
-using Application.Designations.Queries.GetDesignations;
-using Application.Grades.Queries.GetGrades;
 
 namespace WebApp.Pages.Users
 {
@@ -90,7 +86,7 @@ namespace WebApp.Pages.Users
             return Page();
         }
 
-        public async Task InitSelectListItems()
+        public void InitSelectListItems()
         {
             URoles = new SelectList(SecurityConstants.GetRoles());
         }

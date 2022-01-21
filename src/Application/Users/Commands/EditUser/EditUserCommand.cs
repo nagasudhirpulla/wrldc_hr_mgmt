@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
-using System.Text;
 using Core.Entities;
 using static Application.Common.Mappings.MappingProfile;
 using System;
-using Core.Enums;
 
 namespace Application.Users.Commands.EditUser
 {
