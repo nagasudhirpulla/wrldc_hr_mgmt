@@ -108,9 +108,7 @@
         </tr>
     </table>
 
-    @if (Model.RequestId != null)
-    {
-        @if (User.IsInRole(SecurityConstants.AdminRoleString))
+    @if (Model.RequestId != null && User.IsInRole(SecurityConstants.AdminRoleString))
         {
             // admin user is seeing other user details, so show extra buttons
             <div>
@@ -123,8 +121,6 @@
                 <a asp-page="Index">Back to Users List</a>
             </div>
         }
-
-    }
     else
     {
         <a asp-page="./Subordinates">View Subordinates</a>
