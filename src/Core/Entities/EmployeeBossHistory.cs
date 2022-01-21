@@ -13,7 +13,7 @@ namespace Core.Entities
         public ApplicationUser BossUser { get; set; }
 
         public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }

@@ -12,7 +12,7 @@ namespace Application.EmployeeBossHistorys.Commands.CreateBossHistory
         public string ApplicationUserId { get; set; }
         public string BossUserId { get; set; }
         public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<EmployeeBossHistory, CreateBossHistoryCommand>()

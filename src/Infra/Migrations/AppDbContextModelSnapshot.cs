@@ -248,7 +248,7 @@ namespace Infra.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ToDate")
+                    b.Property<DateTime?>("ToDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
