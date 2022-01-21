@@ -15,7 +15,7 @@ using Application.Users.Commands.CreateUser;
 using WebApp.Extensions;
 using Application.Designations.Queries.GetDesignations;
 using Application.Grades.Queries.GetGrades;
-using Application.Users.Queries.GetEmployeeBoss;
+using Application.Users.Queries.GetEmployeeBossOptions;
 
 namespace WebApp.Pages.Users
 {
@@ -77,7 +77,7 @@ namespace WebApp.Pages.Users
             DeptOptions = new SelectList(await _mediator.Send(new GetDepartmentsQuery()), "Id", "Name");
             DesigOptions = new SelectList(await _mediator.Send(new GetDesignationsQuery()), "Id", "Name");
             GradeOptions = new SelectList(await _mediator.Send(new GetGradesQuery()), "Id", "Name");
-            BossOptions = new SelectList(await _mediator.Send(new GetEmployeeBossQuery()), "Id", "DisplayName");
+            BossOptions = new SelectList(await _mediator.Send(new GetEmployeeBossOptionsQuery()), "Id", "DisplayName");
             URoles = new SelectList(SecurityConstants.GetRoles(), SecurityConstants.EmployeeRoleString);
         }
     }

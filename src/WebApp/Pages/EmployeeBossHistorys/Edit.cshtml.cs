@@ -14,7 +14,7 @@ using WebApp.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Application.Users;
-using Application.Users.Queries.GetEmployeeBoss;
+using Application.Users.Queries.GetEmployeeBossOptions;
 
 namespace WebApp.Pages.EmployeeBossHistorys
 {
@@ -87,7 +87,7 @@ namespace WebApp.Pages.EmployeeBossHistorys
 
         public async Task InitSelectListItems()
         {
-            ReportingOfficerNameSL = new SelectList(await _mediator.Send(new GetEmployeeBossQuery()), "Id", "DisplayName");
+            ReportingOfficerNameSL = new SelectList(await _mediator.Send(new GetEmployeeBossOptionsQuery()), "Id", "DisplayName");
         }
     }
 }

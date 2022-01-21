@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Users.Queries.GetEmployeeBoss
+namespace Application.Users.Queries.GetEmployeeBossOptions
 {
-    public class GetEmployeeBossQuery : IRequest<List<ApplicationUser>>
+    public class GetEmployeeBossOptionsQuery : IRequest<List<ApplicationUser>>
     {
-        public class GetEmployeeBossQueryHandler : IRequestHandler<GetEmployeeBossQuery, List<ApplicationUser>>
+        public class GetEmployeeBossOptionsQueryHandler : IRequestHandler<GetEmployeeBossOptionsQuery, List<ApplicationUser>>
         {
             private readonly UserManager<ApplicationUser> _userManager;
-            public List<ApplicationUser> empUser = new();
+            public List<ApplicationUser> empUsers = new();
 
-            public GetEmployeeBossQueryHandler(UserManager<ApplicationUser> userManager)
+            public GetEmployeeBossOptionsQueryHandler(UserManager<ApplicationUser> userManager)
             {
                 _userManager = userManager;
             }
 
-            public async Task<List<ApplicationUser>> Handle(GetEmployeeBossQuery request, CancellationToken cancellationToken)
+            public async Task<List<ApplicationUser>> Handle(GetEmployeeBossOptionsQuery request, CancellationToken cancellationToken)
             {
                 // get the list of users
                 List<ApplicationUser> users = await _userManager.Users
@@ -40,11 +40,11 @@ namespace Application.Users.Queries.GetEmployeeBoss
                         userRole = existingRoles.ElementAt(0);
                         if (userRole == "Employee")
                         {
-                            empUser.Add(user);
+                            empUsers.Add(user);
                         }
                     }
                 }
-                return empUser;
+                return empUsers;
             }
         }
     }
