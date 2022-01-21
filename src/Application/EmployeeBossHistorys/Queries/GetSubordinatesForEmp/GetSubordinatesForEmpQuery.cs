@@ -29,6 +29,7 @@ namespace Application.EmployeeBossHistorys.Queries.GetSubordinatesForEmp
                                                     .Where(e => e.BossUserId == request.ApplicationUserId)
                                                     .Include(e => e.ApplicationUser)
                                                     .Include(e => e.BossUser)
+                                                    .OrderByDescending(e => e.ApplicationUserId).ThenBy(e => e.FromDate)
                                                     .ToListAsync(cancellationToken: cancellationToken);
                 return res;
             }

@@ -1,4 +1,5 @@
 ﻿@page
+@using Application.Users
 @model WebApp.Pages.Users.DetailsModel
 @{
     string pageTitle = "User Details";
@@ -106,14 +107,26 @@
             <td>@(Model.CUser.IsActive?"Yes":"No")</td>
         </tr>
     </table>
+
     @if (Model.RequestId != null)
     {
-        // admin user is seeing other user details, so show extra buttons and list
-        <a asp-page="./Edit" asp-route-id="@Model.RequestId" class="btn btn-sm btn-warning">Edit User</a>
-        <a asp-page="./Delete" asp-route-id="@Model.RequestId" class="btn btn-sm btn-danger">Delete User</a>
-        <br />
-        <div>
-            <a asp-page="Index">Back to Users List</a>
-        </div>
+        @if (User.IsInRole(SecurityConstants.AdminRoleString))
+        {
+            // admin user is seeing other user details, so show extra buttons
+            <div>
+                <a asp-page="./Subordinates" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-primary">View Subordinates</a>
+                <a asp-page="./Edit" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-warning">Edit User</a>
+                <a asp-page="./Delete" asp-route-id="@Model.RequestId" class="btn btn-sm btn-outline-danger">Delete User</a>
+            </div>
+            <br />
+            <div>
+                <a asp-page="Index">Back to Users List</a>
+            </div>
+        }
+
+    }
+    else
+    {
+        <a asp-page="./Subordinates">View Subordinates</a>
     }
 </div>
